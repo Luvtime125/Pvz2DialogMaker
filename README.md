@@ -1,4 +1,4 @@
-This is a beta version of dialog maker but this is codded with html code
+This is a dialog maker but this is codded with html code
 
 # to enable your dialog
 -you must copy and paste code to lawnstrings.json in "LocStringValues": [
