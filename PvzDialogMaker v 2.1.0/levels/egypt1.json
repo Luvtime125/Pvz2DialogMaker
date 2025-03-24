@@ -5,7 +5,7 @@
       "objclass": "LevelDefinition",
       "objdata": {
         "StageModule": "RTID(RiftStage@LevelModules)",
-        "Name": "Dialog maker v2.0",
+        "Name": "Dialog maker v2.1",
         "Description": "Joust like you see",
         "LevelNumber": 1,
         "Loot": "RTID(DefaultLoot@LevelModules)",
