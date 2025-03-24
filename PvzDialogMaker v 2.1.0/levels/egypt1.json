@@ -4,6 +4,8 @@
     {
       "objclass": "LevelDefinition",
       "objdata": {
+        "FirstIntroNarrative": "YOUR DIALOG",
+        "FirstOutroNarrative": "YOUR DIALOG",
         "StageModule": "RTID(RiftStage@LevelModules)",
         "Name": "Dialog maker v2.1",
         "Description": "Joust like you see",
