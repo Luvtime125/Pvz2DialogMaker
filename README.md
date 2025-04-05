@@ -2,6 +2,7 @@ This is a dialog maker but this is codded with html code
 
 # to enable your dialog
 -you must copy and paste code to lawnstrings.json in "LocStringValues": [
+-or you can use dialogadder
 
 -and go make and custom level and use "FirstIntroNarrative": "YOURDIALOG, for intro level dialog and for outro level use "FirstOutroNarrative": "YOURDIALOG",
 
