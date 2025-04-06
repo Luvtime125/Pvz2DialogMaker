@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Dialogue Maker</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #000000;
+            color: #ffffff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+            overflow: auto;
+            position: relative;
+        }
+        
+        .stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            pointer-events: none;
+        }
+        
+        .star {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background-color: white;
+            border-radius: 50%;
+            box-shadow: 0 0 5px rgba(255, 255, 255, 0.8);
+            animation: twinkle 2s infinite ease-in-out;
+        }
+        
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 1; }
+        }
+        
+        .container {
+            background: #1a1a1a;
+            padding: 20px;
+            border-radius: 20px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+            width: 100%;
+            max-width: 500px;
+            text-align: center;
+            z-index: 1;
+            margin: 20px 0;
+        }
+        
+        input, select, button {
+            width: 100%;
+            margin: 10px 0;
+            padding: 12px;
+            border-radius: 10px;
+            border: none;
+            font-size: 16px;
+        }
+        
+        input, select {
+            background: #333333;
+            color: #ffffff;
+        }
+        
+        button {
+            background-color: #007BFF;
+            color: #ffffff;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+        
+        button:active {
+            transform: scale(0.95);
+        }
+        
+        textarea {
+            background: #333333;
+            color: #ffffff;
+            font-family: monospace;
+            padding: 10px;
+            width: 100%;
+            min-height: 150px;
+            max-height: 50vh;
+            border-radius: 10px;
+            border: none;
+            resize: vertical;
+            font-size: 14px;
+            overflow-y: auto;
+            white-space: pre;
+            word-wrap: break-word;
+        }
+        
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            z-index: 100;
+            overflow: auto;
+            animation: fadeIn 0.3s ease;
+        }
+        
+        .modal-content {
+            background-color: #333;
+            margin: 5% auto;
+            padding: 20px;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 600px;
+            position: relative;
+        }
+        
+        .close {
+            color: #aaa;
+            position: absolute;
+            top: 10px;
+            right: 20px;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        
+        .close:hover {
+            color: #fff;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        /* Fullscreen Button */
+        .fullscreen-button {
+            position: fixed;
+            top: 15px;
+            right: 15px;
+            background-color: rgba(0, 123, 255, 0.7);
+            color: white;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            z-index: 1000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+        }
+        
+        .fullscreen-button:hover {
+            background-color: rgba(0, 123, 255, 0.9);
+            transform: scale(1.1);
+        }
+        
+        .fullscreen-button svg {
+            width: 24px;
+            height: 24px;
+            fill: currentColor;
+        }
+        
+        /* Notification */
+        #androidNotification {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            left: 20px;
+            background-color: #333;
+            color: white;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+            display: none;
+            z-index: 1000;
+            text-align: center;
+            animation: slideIn 0.3s ease, fadeOut 0.3s ease 2.5s forwards;
+        }
+        
+        @keyframes slideIn {
+            from { transform: translateY(100%); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        
+        @keyframes fadeOut {
+            to { opacity: 0; visibility: hidden; }
+        }
+        
+        /* Button Groups */
+        .button-group {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        
+        /* Responsive Adjustments */
+        @media (max-width: 480px) {
+            .container {
+                padding: 15px;
+                border-radius: 15px;
+            }
+            
+            input, select, button {
+                padding: 10px;
+                font-size: 14px;
+            }
+            
+            .button-group {
+                grid-template-columns: 1fr;
+            }
+            
+            .modal-content {
+                padding: 15px;
+                width: 95%;
+            }
+        }
+        
+        /* Fullscreen specific styles */
+        :fullscreen .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        :fullscreen textarea {
+            max-height: 60vh;
+        }
+    </style>
+</head>
+<body>
+    <!-- Fullscreen Button -->
+    <button class="fullscreen-button" id="fullscreenButton" title="Toggle Fullscreen">
+        <svg viewBox="0 0 24 24">
+            <path d="M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z"/>
+        </svg>
+    </button>
+
+    <div class="stars" id="starsContainer"></div>
+    
+    <div class="container">
+        <h2>Dialogue Maker</h2>
+        
+        <input type="text" id="header" placeholder="Enter Header" />
+        
+        <div>
+            <label for="action">Choose an Action:</label>
+            <select id="action" onchange="toggleDialogueVisibility()">
+                <option value="NPC_ENTER_SAY">NPC Enter + Say</option>
+                <option value="NPC_ENTER">NPC Enter</option>
+                <option value="SAY">Say</option>
+                <option value="NPC_EXIT">NPC Exit</option>
+            </select>
+        </div>
+        
+        <div>
+            <label for="character">Choose a Character:</label>
+            <select id="character">
+                <option value="crazydave">Crazy Dave</option>
+                <option value="winnie">Winnie</option>
+                <option value="sunflower">Sunflower</option>
+                <option value="peashooter">Peashooter</option> 
+                <option value="wallnut">Wallnut</option>
+                <option value="zomboss">Zomboss</option>
+                <option value="zombossicon">ZombossIcon</option>
+            </select>
+        </div>
+
+        <div id="dialogueDiv" style="display: none;">
+            <label for="dialogue">Enter Dialogue:</label>
+            <input type="text" id="dialogue" placeholder="Enter Dialogue" />
+        </div>
+
+        <button onclick="generateDialogue()">Generate</button>
+        
+        <div class="button-group">
+            <button onclick="showModal('codeModal')">Show Code</button>
+            <button id="likeButton" onclick="sendLike()">Like</button>
+            <button id="sendToDeveloperButton" onclick="sendToDeveloper()">Send to Developer</button>
+            <button id="reportButton" onclick="showModal('reportModal')">Report Issue</button>
+        </div>
+
+        <!-- Code Modal -->
+        <div id="codeModal" class="modal">
+            <div class="modal-content">
+                <span class="close" onclick="closeModal('codeModal')">&times;</span>
+                <h3>Generated Dialogue Code</h3>
+                <textarea id="dialogueOutput" readonly></textarea>
+                <div class="button-group">
+                    <button id="copyButton" onclick="copyCode()">Copy Code</button>
+                    <button id="downloadButton" onclick="downloadCode()">Download</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Report Modal -->
+        <div id="reportModal" class="modal">
+            <div class="modal-content">
+                <span class="close" onclick="closeModal('reportModal')">&times;</span>
+                <h3>Report an Issue</h3>
+                <p>Please describe the issue you're experiencing:</p>
+                <textarea id="reportText" placeholder="Describe the issue here..."></textarea>
+                <button onclick="sendReport()">Submit Report</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="androidNotification">
+        Loading complete! Everything is ready
+    </div>
+    
+    <script>
+        // Initialize variables
+        let dialogues = [];
+        let usedCharacters = [];
+        let currentSendCount = 0;
+        
+        // DOM Elements
+        const sendToDeveloperButton = document.getElementById("sendToDeveloperButton");
+        const likeButton = document.getElementById("likeButton");
+        const fullscreenButton = document.getElementById("fullscreenButton");
+        
+        // Initialize the app
+        function initApp() {
+            // Initialize send limits
+            const today = new Date().toDateString();
+            const lastSendDate = localStorage.getItem("lastSendDate");
+            const storedSendCount = parseInt(localStorage.getItem("sendCount")) || 0;
+            
+            if (lastSendDate !== today) {
+                localStorage.setItem("sendCount", "0");
+                localStorage.setItem("lastSendDate", today);
+                currentSendCount = 0;
+            } else {
+                currentSendCount = storedSendCount;
+            }
+            
+            // Check if user has already liked
+            const hasLiked = localStorage.getItem("hasLiked") === "true";
+            if (hasLiked) {
+                likeButton.disabled = true;
+                likeButton.textContent = "Liked!";
+            }
+            
+            // Update UI
+            updateSendButtonState();
+            createStars();
+            showAndroidNotification("Dialogue Maker v2.2.0");
+            
+            // Set up initial visibility
+            toggleDialogueVisibility();
+        }
+        
+        // Update send button state based on daily limit
+        function updateSendButtonState() {
+            if (currentSendCount >= 3) {
+                sendToDeveloperButton.disabled = true;
+                sendToDeveloperButton.title = "You can only send 3 times per day. Please try again tomorrow.";
+            } else {
+                sendToDeveloperButton.disabled = false;
+                sendToDeveloperButton.title = "";
+            }
+        }
+        
+        // Create star background
+        function createStars() {
+            const starsContainer = document.getElementById("starsContainer");
+            const starsCount = window.innerWidth < 480 ? 100 : 200;
+            
+            for (let i = 0; i < starsCount; i++) {
+                const star = document.createElement("div");
+                star.className = "star";
+                star.style.top = `${Math.random() * 100}%`;
+                star.style.left = `${Math.random() * 100}%`;
+                star.style.animationDuration = `${Math.random() * 2 + 1}s`;
+                star.style.animationDelay = `${Math.random() * 2}s`;
+                starsContainer.appendChild(star);
+            }
+        }
+        
+        // Show notification
+        function showAndroidNotification(message, duration = 3000) {
+            const notification = document.getElementById("androidNotification");
+            notification.textContent = message;
+            notification.style.display = "block";
+            notification.style.animation = `slideIn 0.3s ease, fadeOut 0.3s ease ${duration/1000}s forwards`;
+            
+            setTimeout(() => {
+                notification.style.display = "none";
+            }, duration + 300);
+        }
+        
+        // Toggle dialogue input visibility based on action
+        function toggleDialogueVisibility() {
+            const action = document.getElementById("action").value;
+            const dialogueDiv = document.getElementById("dialogueDiv");
+            dialogueDiv.style.display = (action === "NPC_ENTER_SAY" || action === "SAY") ? "block" : "none";
+        }
+        
+        // Generate dialogue code
+        function generateDialogue() {
+            const header = document.getElementById("header").value.toUpperCase().replace(/\s/g, "_");
+            const action = document.getElementById("action").value;
+            const character = document.getElementById("character").value;
+            const dialogue = document.getElementById("dialogue").value;
+            
+            // Validate inputs
+            if (!header) {
+                showActionModal("Please enter a header for the dialogue.");
+                return;
+            }
+            
+            if (action === "NPC_EXIT" && !isCharacterEntered(character)) {
+                showActionModal("NPC Exit can only be used after entering a character.");
+                return;
+            }
+            
+            if ((action === "NPC_ENTER_SAY" || action === "SAY") && !dialogue) {
+                showActionModal("Please enter dialogue text.");
+                return;
+            }
+            
+            if (usedCharacters.includes(character) && action !== "NPC_EXIT" && action !== "SAY") {
+                showActionModal("This character has already been used! Please choose NPC Exit to reset.");
+                return;
+            }
+            
+            // Update character tracking
+            if (action !== "NPC_EXIT" && action !== "SAY") {
+                usedCharacters.push(character);
+            } else if (action === "NPC_EXIT") {
+                const index = usedCharacters.indexOf(character);
+                if (index > -1) usedCharacters.splice(index, 1);
+            }
+            
+            // Generate dialogue code
+            const narrativeNumber = dialogues.length + 1;
+            let newDialogue;
+            
+            if (action === "NPC_ENTER_SAY") {
+                newDialogue = `\t\t\t"NARRATIVE_${header}_${narrativeNumber}",\n\t\t\t"{NPC_ENTER:${character}}{SAY:${character}}${dialogue}",`;
+            } else {
+                const actionPart = action === "SAY" ? `{SAY:${character}}${dialogue}` : `{${action}:${character}}${dialogue || ""}`;
+                newDialogue = `\t\t\t"NARRATIVE_${header}_${narrativeNumber}",\n\t\t\t"${actionPart}",`;
+            }
+            
+            dialogues.push(newDialogue);
+            updateOutput();
+            document.getElementById("dialogue").value = "";
+            showAndroidNotification("Dialogue generated successfully!");
+        }
+        
+        // Update output textarea
+        function updateOutput() {
+            document.getElementById("dialogueOutput").value = dialogues.join("\n");
+        }
+        
+        // Check if character is already entered
+        function isCharacterEntered(character) {
+            return usedCharacters.includes(character);
+        }
+        
+        // Modal functions
+        function showModal(modalId) {
+            document.getElementById(modalId).style.display = "block";
+            
+            if (modalId === "codeModal") {
+                document.getElementById("dialogueOutput").value = dialogues.join("\n");
+            }
+        }
+        
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = "none";
+        }
+        
+        function showActionModal(message) {
+            showAndroidNotification(message, 4000);
+        }
+        
+        // Copy code to clipboard
+        function copyCode() {
+            const codeText = document.getElementById("dialogueOutput");
+            codeText.select();
+            document.execCommand("copy");
+            showAndroidNotification("Code copied to clipboard!");
+            closeModal("codeModal");
+        }
+        
+        // Download code as file
+        function downloadCode() {
+            const text = document.getElementById("dialogueOutput").value;
+            const header = document.getElementById("header").value.trim();
+            let fileName = header ? `${header.replace(/\s+/g, "_").replace(/[^\w\-]/g, "")}.dia` : "dialogue_code.dia";
+            
+            const blob = new Blob([text], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = fileName;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            
+            showAndroidNotification("File downloaded successfully!");
+            closeModal("codeModal");
+        }
+        
+        // Send like to developer
+        async function sendLike() {
+            likeButton.disabled = true;
+            likeButton.textContent = "Liked!";
+            localStorage.setItem("hasLiked", "true");
+            
+            try {
+                const botToken = "7965814275:AAFPIFOAeur4YqmK-N-I5X_4XMQIywexbFs";
+                const chatId = "1867982596";
+                const url = `https://api.telegram.org/bot${botToken}/sendMessage?chat_id=${chatId}&text=${encodeURIComponent("New like received on Dialogue Maker!")}`;
+                
+                await fetch(url);
+                showAndroidNotification("Thank you for your support! ❤️");
+            } catch (error) {
+                showAndroidNotification("Like recorded locally. Thank you!");
+            }
+        }
+        
+        // Send dialogue to developer
+        async function sendToDeveloper() {
+            // Update send count
+            const today = new Date().toDateString();
+            if (localStorage.getItem("lastSendDate") !== today) {
+                localStorage.setItem("sendCount", "1");
+                localStorage.setItem("lastSendDate", today);
+                currentSendCount = 1;
+            } else {
+                currentSendCount = parseInt(localStorage.getItem("sendCount")) + 1;
+                localStorage.setItem("sendCount", currentSendCount.toString());
+            }
+            
+            updateSendButtonState();
+            
+            const text = document.getElementById("dialogueOutput").value;
+            if (!text) {
+                showAndroidNotification("❌ No dialogue to send!");
+                return;
+            }
+            
+            const header = document.getElementById("header").value.trim();
+            let fileName = header ? `${header.replace(/\s+/g, "_").replace(/[^\w\-]/g, "")}.dia` : "dialogue_code.dia";
+            
+            try {
+                const blob = new Blob([text], { type: 'text/plain' });
+                const formData = new FormData();
+                formData.append("document", blob, fileName);
+                
+                const botToken = "7965814275:AAFPIFOAeur4YqmK-N-I5X_4XMQIywexbFs";
+                const chatId = "1867982596";
+                const url = `https://api.telegram.org/bot${botToken}/sendDocument?chat_id=${chatId}`;
+                
+                const response = await fetch(url, { method: "POST", body: formData });
+                
+                if (response.ok) {
+                    showAndroidNotification(`✅ Dialogue sent! (${currentSendCount}/3 today)`);
+                } else {
+                    throw new Error("Failed to send");
+                }
+            } catch (error) {
+                showAndroidNotification("❌ Failed to send. Please try again.");
+            }
+        }
+        
+        // Send report to developer
+        async function sendReport() {
+            const reportText = document.getElementById("reportText").value.trim();
+            if (!reportText) {
+                showAndroidNotification("Please describe the issue before submitting.");
+                return;
+            }
+            
+            try {
+                const botToken = "7965814275:AAFPIFOAeur4YqmK-N-I5X_4XMQIywexbFs";
+                const chatId = "1867982596";
+                const url = `https://api.telegram.org/bot${botToken}/sendMessage?chat_id=${chatId}&text=${encodeURIComponent("Dialogue Maker Report:\n\n" + reportText)}`;
+                
+                await fetch(url);
+                showAndroidNotification("✅ Report submitted successfully!");
+                document.getElementById("reportText").value = "";
+                closeModal("reportModal");
+            } catch (error) {
+                showAndroidNotification("❌ Failed to submit report. Please try again.");
+            }
+        }
+        
+        // Fullscreen functionality
+        function toggleFullScreen() {
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen().catch(err => {
+                    showAndroidNotification(`Fullscreen error: ${err.message}`);
+                });
+            } else {
+                document.exitFullscreen();
+            }
+        }
+        
+        function updateFullscreenButton() {
+            if (document.fullscreenElement) {
+                fullscreenButton.innerHTML = `
+                    <svg viewBox="0 0 24 24">
+                        <path d="M5 16h3v3h2v-5H5v2zm3-8H5v2h5V5H8v3zm6 11h2v-3h3v-2h-5v5zm2-11V5h-2v5h5V8h-3z"/>
+                    </svg>`;
+                fullscreenButton.title = "Exit Fullscreen";
+            } else {
+                fullscreenButton.innerHTML = `
+                    <svg viewBox="0 0 24 24">
+                        <path d="M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z"/>
+                    </svg>`;
+                fullscreenButton.title = "Enter Fullscreen";
+            }
+        }
+        
+        // Event listeners
+        document.addEventListener('fullscreenchange', updateFullscreenButton);
+        fullscreenButton.addEventListener('click', toggleFullScreen);
+        
+        // Initialize the app when loaded
+        window.addEventListener('DOMContentLoaded', initApp);
+    </script>
+</body>
+</html>
