@@ -6,8 +6,8 @@
 			"objclass": "LevelDefinition",
 			"objdata": {
 				"Name": "DialogMaker",
-        "FirstIntroNarrative": "YOUR DIALOG",
-        "FirstOutroNarrative": "YOUR DIALOG",
+                                "FirstIntroNarrative": "YOUR DIALOG",
+                                "FirstOutroNarrative": "YOUR DIALOG",
 				"Description": "DialogMaker",
 				"StageModule": "RTID(ModernStage@LevelModules)",
 				"Loot": "RTID(DefaultLoot@LevelModules)",
