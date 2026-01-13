@@ -5,91 +5,24 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Dialogue Maker</title>
     <style>
-        /* Reset and base styles */
         * {
-            margin: 0;
-            padding: 0;
             box-sizing: border-box;
-            -webkit-tap-highlight-color: transparent;
-            -webkit-touch-callout: none;
-            user-select: none;
-            touch-action: manipulation;
-        }
-        
-        /* Allow text selection in inputs and textareas */
-        input, textarea, select {
-            user-select: text;
-            -webkit-user-select: text;
         }
         
         body {
-            font-family: 'Arial', sans-serif;
-            min-height: 100vh;
+            font-family: Arial, sans-serif;
+            background-color: #000000;
+            color: #ffffff;
             display: flex;
             justify-content: center;
             align-items: center;
+            min-height: 100vh;
+            margin: 0;
             padding: 20px;
-            overflow-x: hidden;
-            transition: background-color 0.5s ease;
+            overflow: auto;
+            position: relative;
         }
         
-        /* Theme Colors */
-        .theme-default {
-            background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
-            color: #ffffff;
-        }
-        
-        .theme-dark {
-            background: linear-gradient(135deg, #0a0a0a, #1a1a1a, #2d2d2d);
-            color: #ffffff;
-        }
-        
-        .theme-blue {
-            background: linear-gradient(135deg, #001f3f, #003366, #00509e);
-            color: #ffffff;
-        }
-        
-        .theme-green {
-            background: linear-gradient(135deg, #004d00, #006600, #008000);
-            color: #ffffff;
-        }
-        
-        .theme-purple {
-            background: linear-gradient(135deg, #4b0082, #6600cc, #8000ff);
-            color: #ffffff;
-        }
-        
-        .theme-red {
-            background: linear-gradient(135deg, #660000, #990000, #cc0000);
-            color: #ffffff;
-        }
-        
-        .theme-gold {
-            background: linear-gradient(135deg, #b8860b, #daa520, #ffd700);
-            color: #000000;
-        }
-        
-        .theme-silver {
-            background: linear-gradient(135deg, #c0c0c0, #d3d3d3, #e8e8e8);
-            color: #000000;
-        }
-        
-        .theme-ocean {
-            background: linear-gradient(135deg, #006994, #008b8b, #00ced1);
-            color: #ffffff;
-        }
-        
-        .theme-sunset {
-            background: linear-gradient(135deg, #ff6b6b, #ff8e53, #ffd166);
-            color: #000000;
-        }
-        
-        .theme-forest {
-            background: linear-gradient(135deg, #2d5016, #3a7d34, #4c956c);
-            color: #ffffff;
-        }
-        
-        /* Stars Background */
         .stars {
             position: fixed;
             top: 0;
@@ -102,402 +35,75 @@
         
         .star {
             position: absolute;
+            width: 2px;
+            height: 2px;
             background-color: white;
             border-radius: 50%;
-            animation: twinkle var(--duration) infinite ease-in-out;
+            box-shadow: 0 0 5px rgba(255, 255, 255, 0.8);
+            animation: twinkle 2s infinite ease-in-out;
         }
         
         @keyframes twinkle {
-            0%, 100% { opacity: 0.3; }
+            0%, 100% { opacity: 0.5; }
             50% { opacity: 1; }
         }
         
-        /* Main Container */
         .container {
-            background: rgba(26, 26, 26, 0.95);
-            backdrop-filter: blur(10px);
-            padding: 25px;
-            border-radius: 15px;
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5);
+            background: #1a1a1a;
+            padding: 20px;
+            border-radius: 20px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
             width: 100%;
             max-width: 500px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            text-align: center;
+            z-index: 1;
+            margin: 20px 0;
         }
         
-        /* Theme-specific container styles */
-        .theme-dark .container,
-        .theme-blue .container,
-        .theme-purple .container,
-        .theme-red .container,
-        .theme-ocean .container,
-        .theme-forest .container {
-            background: rgba(20, 20, 20, 0.95);
-            color: #ffffff;
-        }
-        
-        .theme-green .container {
-            background: rgba(0, 40, 0, 0.95);
-            color: #ffffff;
-        }
-        
-        .theme-gold .container,
-        .theme-silver .container,
-        .theme-sunset .container {
-            background: rgba(255, 255, 255, 0.95);
-            color: #000000;
-            border: 1px solid rgba(0, 0, 0, 0.1);
-        }
-        
-        /* User Info */
-        .user-info {
-            display: none;
-            align-items: center;
-            gap: 12px;
-            margin-bottom: 20px;
+        input, select, button {
+            width: 100%;
+            margin: 10px 0;
             padding: 12px;
-            background: rgba(255, 255, 255, 0.08);
             border-radius: 10px;
-            border: 1px solid rgba(0, 123, 255, 0.2);
-        }
-        
-        .user-info.show {
-            display: flex;
-        }
-        
-        .user-avatar {
-            width: 45px;
-            height: 45px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, #007BFF, #00d4ff);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-            font-size: 20px;
-            color: white;
-        }
-        
-        .user-details {
-            flex-grow: 1;
-        }
-        
-        .user-name {
-            font-size: 16px;
-            font-weight: bold;
-            margin-bottom: 3px;
-            color: #00d4ff;
-        }
-        
-        .user-stats {
-            display: flex;
-            gap: 12px;
-            font-size: 11px;
-            color: #aaa;
-        }
-        
-        /* Login Form */
-        .login-form {
-            text-align: center;
-            padding: 25px 15px;
-            animation: fadeIn 0.5s ease;
-        }
-        
-        .login-title {
-            font-size: 26px;
-            margin-bottom: 8px;
-            color: #00d4ff;
-            font-weight: bold;
-        }
-        
-        .login-subtitle {
-            color: #aaa;
-            margin-bottom: 25px;
-            font-size: 14px;
-        }
-        
-        .username-input {
-            width: 100%;
-            padding: 14px;
-            margin-bottom: 15px;
-            background: rgba(255, 255, 255, 0.08);
-            border: 2px solid rgba(0, 123, 255, 0.3);
-            border-radius: 8px;
-            color: white;
-            font-size: 15px;
-            transition: all 0.3s;
-        }
-        
-        .username-input:focus {
-            outline: none;
-            border-color: #007BFF;
-            box-shadow: 0 0 12px rgba(0, 123, 255, 0.3);
-        }
-        
-        .theme-select {
-            width: 100%;
-            padding: 14px;
-            margin-bottom: 15px;
-            background: rgba(255, 255, 255, 0.08);
-            border: 2px solid rgba(0, 123, 255, 0.3);
-            border-radius: 8px;
-            color: white;
-            font-size: 15px;
-            cursor: pointer;
-        }
-        
-        .login-btn {
-            width: 100%;
-            padding: 15px;
-            background: linear-gradient(45deg, #007BFF, #00d4ff);
-            color: white;
             border: none;
-            border-radius: 8px;
             font-size: 16px;
-            font-weight: bold;
+        }
+        
+        input, select {
+            background: #333333;
+            color: #ffffff;
+        }
+        
+        button {
+            background-color: #007BFF;
+            color: #ffffff;
             cursor: pointer;
-            transition: all 0.3s;
-            margin-bottom: 12px;
-        }
-        
-        .login-btn:hover, .login-btn:active {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(0, 123, 255, 0.4);
-        }
-        
-        /* Main App */
-        .main-app {
-            display: none;
-            animation: slideUp 0.5s ease;
-        }
-        
-        .main-app.show {
-            display: block;
-        }
-        
-        .app-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-        }
-        
-        .app-title {
-            font-size: 22px;
             font-weight: bold;
-            color: #00d4ff;
+            transition: all 0.3s ease;
         }
         
-        /* Dialogues Panel */
-        .dialogues-panel {
-            margin-bottom: 20px;
+        button:active {
+            transform: scale(0.95);
         }
         
-        .panel-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 12px;
-        }
-        
-        .panel-title {
-            font-size: 16px;
-            font-weight: bold;
-        }
-        
-        .dialogues-list {
-            max-height: 180px;
+        textarea {
+            background: #333333;
+            color: #ffffff;
+            font-family: monospace;
+            padding: 10px;
+            width: 100%;
+            min-height: 150px;
+            max-height: 50vh;
+            border-radius: 10px;
+            border: none;
+            resize: vertical;
+            font-size: 14px;
             overflow-y: auto;
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 8px;
-            padding: 8px;
-            margin-bottom: 12px;
+            white-space: pre;
+            word-wrap: break-word;
         }
         
-        .dialogue-item {
-            background: rgba(255, 255, 255, 0.1);
-            padding: 10px;
-            margin-bottom: 6px;
-            border-radius: 6px;
-            cursor: pointer;
-            transition: all 0.3s;
-            border-left: 3px solid #007BFF;
-        }
-        
-        .dialogue-item:hover {
-            background: rgba(255, 255, 255, 0.15);
-            transform: translateX(3px);
-        }
-        
-        .dialogue-header {
-            font-weight: bold;
-            color: #00d4ff;
-            margin-bottom: 3px;
-            font-size: 14px;
-        }
-        
-        .dialogue-date {
-            font-size: 10px;
-            color: #aaa;
-        }
-        
-        /* Quick Actions */
-        .quick-actions {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 8px;
-            margin-bottom: 15px;
-        }
-        
-        .action-btn {
-            padding: 10px;
-            background: rgba(0, 123, 255, 0.2);
-            border: 1px solid rgba(0, 123, 255, 0.3);
-            border-radius: 6px;
-            color: white;
-            cursor: pointer;
-            transition: all 0.3s;
-            font-size: 13px;
-        }
-        
-        .action-btn:hover, .action-btn:active {
-            background: rgba(0, 123, 255, 0.3);
-            transform: translateY(-1px);
-        }
-        
-        /* Form Elements */
-        .form-group {
-            margin-bottom: 15px;
-        }
-        
-        .form-label {
-            display: block;
-            margin-bottom: 6px;
-            color: #aaa;
-            font-weight: 500;
-            font-size: 14px;
-        }
-        
-        .form-input, .form-select {
-            width: 100%;
-            padding: 12px;
-            background: rgba(255, 255, 255, 0.08);
-            border: 2px solid rgba(255, 255, 255, 0.1);
-            border-radius: 8px;
-            color: white;
-            font-size: 14px;
-            transition: all 0.3s;
-        }
-        
-        .form-input:focus, .form-select:focus {
-            outline: none;
-            border-color: #007BFF;
-            box-shadow: 0 0 12px rgba(0, 123, 255, 0.3);
-        }
-        
-        /* Dialogue input should be visible by default for SAY action */
-        #dialogueDiv {
-            display: block !important;
-        }
-        
-        /* Generate Button */
-        .generate-btn {
-            width: 100%;
-            padding: 14px;
-            background: linear-gradient(45deg, #28a745, #20c997);
-            color: white;
-            border: none;
-            border-radius: 8px;
-            font-size: 16px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: all 0.3s;
-            margin-bottom: 15px;
-        }
-        
-        .generate-btn:hover, .generate-btn:active {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(40, 167, 69, 0.4);
-        }
-        
-        /* Action Buttons */
-        .action-buttons {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 8px;
-            margin-bottom: 15px;
-        }
-        
-        .btn-primary {
-            background: linear-gradient(45deg, #007BFF, #0056cc);
-            color: white;
-            border: none;
-            padding: 10px;
-            border-radius: 6px;
-            cursor: pointer;
-            font-weight: bold;
-            font-size: 13px;
-            transition: all 0.3s;
-        }
-        
-        .btn-secondary {
-            background: rgba(255, 255, 255, 0.1);
-            color: white;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            padding: 10px;
-            border-radius: 6px;
-            cursor: pointer;
-            font-weight: bold;
-            font-size: 13px;
-            transition: all 0.3s;
-        }
-        
-        .btn-primary:hover, .btn-primary:active,
-        .btn-secondary:hover, .btn-secondary:active {
-            transform: translateY(-1px);
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-        }
-        
-        /* Stats Section */
-        .stats-section {
-            background: rgba(255, 255, 255, 0.05);
-            padding: 12px;
-            border-radius: 8px;
-            margin-bottom: 15px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-        
-        .stats-title {
-            font-size: 14px;
-            margin-bottom: 8px;
-            color: #00d4ff;
-        }
-        
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 8px;
-        }
-        
-        .stat-item {
-            text-align: center;
-            padding: 8px;
-            background: rgba(255, 255, 255, 0.08);
-            border-radius: 6px;
-        }
-        
-        .stat-value {
-            font-size: 20px;
-            font-weight: bold;
-            color: #00d4ff;
-        }
-        
-        .stat-label {
-            font-size: 10px;
-            color: #aaa;
-            margin-top: 3px;
-        }
-        
-        /* Modals */
+        /* Modal Styles */
         .modal {
             display: none;
             position: fixed;
@@ -505,93 +111,34 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.9);
-            z-index: 1000;
-            overflow-y: auto;
-            padding: 15px;
+            background-color: rgba(0, 0, 0, 0.8);
+            z-index: 100;
+            overflow: auto;
             animation: fadeIn 0.3s ease;
         }
         
         .modal-content {
-            background: rgba(26, 26, 26, 0.95);
-            backdrop-filter: blur(20px);
-            max-width: 550px;
-            margin: 40px auto;
+            background-color: #333;
+            margin: 5% auto;
             padding: 20px;
-            border-radius: 12px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            width: 90%;
+            max-width: 600px;
             position: relative;
-            animation: slideUp 0.3s ease;
         }
         
-        .close-modal {
-            position: absolute;
-            top: 12px;
-            right: 12px;
-            background: none;
-            border: none;
+        .close {
             color: #aaa;
-            font-size: 22px;
+            position: absolute;
+            top: 10px;
+            right: 20px;
+            font-size: 28px;
+            font-weight: bold;
             cursor: pointer;
-            width: 28px;
-            height: 28px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
         }
         
-        .modal-title {
-            font-size: 20px;
-            margin-bottom: 15px;
-            color: #00d4ff;
-        }
-        
-        .code-output {
-            width: 100%;
-            min-height: 180px;
-            background: rgba(0, 0, 0, 0.5);
-            color: #00ff88;
-            font-family: 'Courier New', monospace;
-            padding: 12px;
-            border-radius: 6px;
-            border: 1px solid rgba(0, 255, 136, 0.2);
-            resize: vertical;
-            white-space: pre-wrap;
-            word-wrap: break-word;
-            font-size: 13px;
-            line-height: 1.4;
-        }
-        
-        .modal-actions {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 8px;
-            margin-top: 15px;
-        }
-        
-        /* Notification */
-        .notification {
-            position: fixed;
-            bottom: 15px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: rgba(0, 123, 255, 0.95);
-            backdrop-filter: blur(10px);
-            color: white;
-            padding: 10px 18px;
-            border-radius: 6px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
-            z-index: 1001;
-            display: none;
-            animation: slideInUp 0.3s ease;
-            max-width: 90%;
-            text-align: center;
-            font-size: 14px;
-        }
-        
-        @keyframes slideInUp {
-            from { transform: translateX(-50%) translateY(100%); opacity: 0; }
-            to { transform: translateX(-50%) translateY(0); opacity: 1; }
+        .close:hover {
+            color: #fff;
         }
         
         @keyframes fadeIn {
@@ -599,1304 +146,546 @@
             to { opacity: 1; }
         }
         
-        @keyframes slideUp {
-            from { transform: translateY(40px); opacity: 0; }
-            to { transform: translateY(0); opacity: 1; }
-        }
-        
-        /* Custom Character Input */
-        .custom-character-input {
-            display: none;
-        }
-        
-        /* Theme Preview */
-        .theme-preview {
-            display: grid;
-            grid-template-columns: repeat(5, 1fr);
-            gap: 5px;
-            margin-top: 10px;
-        }
-        
-        .theme-option {
-            width: 30px;
-            height: 30px;
-            border-radius: 5px;
+        /* Fullscreen Button */
+        .fullscreen-button {
+            position: fixed;
+            top: 15px;
+            right: 15px;
+            background-color: rgba(0, 123, 255, 0.7);
+            color: white;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
             cursor: pointer;
-            border: 2px solid transparent;
-            transition: all 0.3s;
+            z-index: 1000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
         }
         
-        .theme-option:hover {
+        .fullscreen-button:hover {
+            background-color: rgba(0, 123, 255, 0.9);
             transform: scale(1.1);
         }
         
-        .theme-option.active {
-            border: 2px solid white;
-            box-shadow: 0 0 8px rgba(255, 255, 255, 0.5);
+        .fullscreen-button svg {
+            width: 24px;
+            height: 24px;
+            fill: currentColor;
         }
         
-        .theme-default-preview { background: linear-gradient(135deg, #0f0c29, #302b63); }
-        .theme-dark-preview { background: linear-gradient(135deg, #0a0a0a, #1a1a1a); }
-        .theme-blue-preview { background: linear-gradient(135deg, #001f3f, #003366); }
-        .theme-green-preview { background: linear-gradient(135deg, #004d00, #006600); }
-        .theme-purple-preview { background: linear-gradient(135deg, #4b0082, #6600cc); }
-        .theme-red-preview { background: linear-gradient(135deg, #660000, #990000); }
-        .theme-gold-preview { background: linear-gradient(135deg, #b8860b, #daa520); }
-        .theme-silver-preview { background: linear-gradient(135deg, #c0c0c0, #d3d3d3); }
-        .theme-ocean-preview { background: linear-gradient(135deg, #006994, #008b8b); }
-        .theme-sunset-preview { background: linear-gradient(135deg, #ff6b6b, #ff8e53); }
-        .theme-forest-preview { background: linear-gradient(135deg, #2d5016, #3a7d34); }
+        /* Notification */
+        #androidNotification {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            left: 20px;
+            background-color: #333;
+            color: white;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+            display: none;
+            z-index: 1000;
+            text-align: center;
+            animation: slideIn 0.3s ease, fadeOut 0.3s ease 2.5s forwards;
+        }
         
-        /* Responsive */
+        @keyframes slideIn {
+            from { transform: translateY(100%); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        
+        @keyframes fadeOut {
+            to { opacity: 0; visibility: hidden; }
+        }
+        
+        /* Button Groups */
+        .button-group {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        
+        /* Responsive Adjustments */
         @media (max-width: 480px) {
-            body {
-                padding: 10px;
-            }
-            
             .container {
-                padding: 20px 15px;
-                margin: 5px;
+                padding: 15px;
+                border-radius: 15px;
             }
             
-            .quick-actions, .action-buttons, .modal-actions {
+            input, select, button {
+                padding: 10px;
+                font-size: 14px;
+            }
+            
+            .button-group {
                 grid-template-columns: 1fr;
             }
             
-            .stats-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-            
-            .login-title {
-                font-size: 22px;
-            }
-            
-            .user-info {
-                flex-direction: column;
-                text-align: center;
-                padding: 10px;
-            }
-            
-            .user-stats {
-                justify-content: center;
-            }
-            
-            .theme-preview {
-                grid-template-columns: repeat(4, 1fr);
+            .modal-content {
+                padding: 15px;
+                width: 95%;
             }
         }
         
-        /* Fullscreen Mode */
+        /* Fullscreen specific styles */
         :fullscreen .container {
-            max-width: 700px;
-            margin: auto;
-            padding: 30px;
+            max-width: 800px;
+            margin: 0 auto;
         }
         
-        :fullscreen .code-output {
-            min-height: 250px;
-            font-size: 14px;
-        }
-        
-        /* Export Options */
-        .export-options {
-            display: flex;
-            gap: 8px;
-            margin-top: 12px;
-            flex-wrap: wrap;
-        }
-        
-        .export-btn {
-            flex: 1;
-            min-width: 110px;
-            padding: 8px;
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 6px;
-            color: white;
-            cursor: pointer;
-            transition: all 0.3s;
-            text-align: center;
-            font-size: 12px;
-        }
-        
-        .export-btn:hover {
-            background: rgba(255, 255, 255, 0.2);
-            transform: translateY(-1px);
-        }
-        
-        /* Theme-specific button styles */
-        .theme-gold .btn-primary,
-        .theme-silver .btn-primary,
-        .theme-sunset .btn-primary {
-            color: #000000;
-        }
-        
-        .theme-gold .btn-secondary,
-        .theme-silver .btn-secondary,
-        .theme-sunset .btn-secondary {
-            color: #000000;
-            background: rgba(0, 0, 0, 0.1);
-            border: 1px solid rgba(0, 0, 0, 0.2);
-        }
-        
-        .theme-gold .action-btn,
-        .theme-silver .action-btn,
-        .theme-sunset .action-btn {
-            color: #000000;
-            background: rgba(0, 0, 0, 0.1);
-            border: 1px solid rgba(0, 0, 0, 0.2);
-        }
-        
-        .theme-gold .export-btn,
-        .theme-silver .export-btn,
-        .theme-sunset .export-btn {
-            color: #000000;
-            background: rgba(0, 0, 0, 0.1);
-            border: 1px solid rgba(0, 0, 0, 0.2);
-        }
-        
-        .theme-gold .form-input,
-        .theme-gold .form-select,
-        .theme-silver .form-input,
-        .theme-silver .form-select,
-        .theme-sunset .form-input,
-        .theme-sunset .form-select {
-            color: #000000;
-            background: rgba(0, 0, 0, 0.1);
-            border: 2px solid rgba(0, 0, 0, 0.2);
-        }
-        
-        .theme-gold .username-input,
-        .theme-silver .username-input,
-        .theme-sunset .username-input,
-        .theme-gold .theme-select,
-        .theme-silver .theme-select,
-        .theme-sunset .theme-select {
-            color: #000000;
-            background: rgba(0, 0, 0, 0.1);
-            border: 2px solid rgba(0, 0, 0, 0.2);
+        :fullscreen textarea {
+            max-height: 60vh;
         }
     </style>
 </head>
-<body class="theme-default">
-    <!-- Stars Background -->
+<body>
+    <!-- Fullscreen Button -->
+    <button class="fullscreen-button" id="fullscreenButton" title="Toggle Fullscreen">
+        <svg viewBox="0 0 24 24">
+            <path d="M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z"/>
+        </svg>
+    </button>
+
     <div class="stars" id="starsContainer"></div>
     
-    <!-- Notification -->
-    <div class="notification" id="notification"></div>
-    
-    <!-- Main Container -->
     <div class="container">
-        <!-- User Info -->
-        <div class="user-info" id="userInfo">
-            <div class="user-avatar" id="userAvatar"></div>
-            <div class="user-details">
-                <div class="user-name" id="userName"></div>
-                <div class="user-stats">
-                    <span>Dialogs: <span id="dialogCount">0</span></span>
-                    <span>Likes: <span id="likeCount">0</span></span>
-                    <span>Sends: <span id="sendCount">0</span></span>
-                </div>
-            </div>
-            <button class="btn-secondary" onclick="logout()" style="padding: 6px 12px; font-size: 12px;">Logout</button>
-        </div>
+        <h2>Dialogue Maker</h2>
         
-        <!-- Login Form -->
-        <div class="login-form" id="loginForm">
-            <h1 class="login-title">Dialogue Maker</h1>
-            <p class="login-subtitle">Create PvZ style dialogues easily</p>
-            
-            <input type="text" 
-                   class="username-input" 
-                   id="usernameInput" 
-                   placeholder="Enter your username"
-                   maxlength="20">
-            
-            <select class="theme-select" id="themeSelect" onchange="previewTheme(this.value)">
-                <option value="default">Default Theme</option>
-                <option value="dark">Dark Theme</option>
-                <option value="blue">Blue Theme</option>
-                <option value="green">Green Theme</option>
-                <option value="purple">Purple Theme</option>
-                <option value="red">Red Theme</option>
-                <option value="gold">Gold Theme</option>
-                <option value="silver">Silver Theme</option>
-                <option value="ocean">Ocean Theme</option>
-                <option value="sunset">Sunset Theme</option>
-                <option value="forest">Forest Theme</option>
+        <input type="text" id="header" placeholder="Enter Header" />
+        
+        <div>
+            <label for="action">Choose an Action:</label>
+            <select id="action" onchange="toggleDialogueVisibility()">
+                <option value="NPC_ENTER_SAY">NPC Enter + Say</option>
+                <option value="NPC_ENTER">NPC Enter</option>
+                <option value="SAY">Say</option>
+                <option value="NPC_EXIT">NPC Exit</option>
             </select>
-            
-            <div class="theme-preview" id="themePreview">
-                <div class="theme-option theme-default-preview active" onclick="selectTheme('default')"></div>
-                <div class="theme-option theme-dark-preview" onclick="selectTheme('dark')"></div>
-                <div class="theme-option theme-blue-preview" onclick="selectTheme('blue')"></div>
-                <div class="theme-option theme-green-preview" onclick="selectTheme('green')"></div>
-                <div class="theme-option theme-purple-preview" onclick="selectTheme('purple')"></div>
-                <div class="theme-option theme-red-preview" onclick="selectTheme('red')"></div>
-                <div class="theme-option theme-gold-preview" onclick="selectTheme('gold')"></div>
-                <div class="theme-option theme-silver-preview" onclick="selectTheme('silver')"></div>
-                <div class="theme-option theme-ocean-preview" onclick="selectTheme('ocean')"></div>
-                <div class="theme-option theme-sunset-preview" onclick="selectTheme('sunset')"></div>
-                <div class="theme-option theme-forest-preview" onclick="selectTheme('forest')"></div>
-            </div>
-            
-            <button class="login-btn" onclick="login()">
-                Start Creating
-            </button>
-            
-            <div style="color: #aaa; font-size: 13px; margin-top: 15px;">
-                <p><strong>Features:</strong></p>
-                <ul style="text-align: left; margin-top: 8px; padding-left: 18px; font-size: 12px;">
-                    <li>New Version is here </li>
-                    <li>Save dialogues locally</li>
-                    <li>User statistics</li>
-                    <li>Quick actions</li>
-                    <li>Multiple export options</li>
-                    <li>Note: Reload the page after Log in</li>
-                </ul>
-            </div>
         </div>
         
-        <!-- Main App -->
-        <div class="main-app" id="mainApp">
-            <!-- App Header -->
-            <div class="app-header">
-                <h2 class="app-title">Dialogue Creator</h2>
-                <button class="btn-secondary" onclick="showSettings()" style="padding: 8px 12px; font-size: 12px;">Settings</button>
-            </div>
-            
-            <!-- Quick Actions -->
-            <div class="quick-actions">
-                <button class="action-btn" onclick="quickSave()">Quick Save</button>
-                <button class="action-btn" onclick="loadLastDialogue()">Load Last</button>
-                <button class="action-btn" onclick="clearAll()">Clear All</button>
-                <button class="action-btn" onclick="showCodeModal()">Show Code</button>
-            </div>
-            
-            <!-- Dialogues Panel -->
-            <div class="dialogues-panel">
-                <div class="panel-header">
-                    <h3 class="panel-title">Your Dialogues</h3>
-                    <button class="btn-secondary" onclick="refreshDialogues()" style="padding: 6px 10px; font-size: 11px;">
-                        Refresh
-                    </button>
+        <div>
+            <label for="character">Choose a Character:</label>
+            <select id="character">
+                <option value="crazydave">Crazy Dave</option>
+                <option value="crazydaveicon">Crazy Dave Icon</option>
+                <option value="winnie">Winnie</option>
+                <option value="winnieicon">Winnie Icon</option>
+                <option value="sunflower">Sunflower</option>
+                <option value="peashooter">Peashooter</option>
+                <option value="wallnut">Wallnut</option>
+                <option value="zomboss">Zomboss</option>
+                <option value="zombossicon">Zomboss Icon</option>
+                <option value="chilibean">Chili Bean</option>
+                <option value="iceburg">Iceburg</option>
+                <option value="tombtangler">Tomb Tangler</option>
+                <option value="ghostpepper">Ghost Pepper</option>
+                <option value="browncoatzombie">Browncoat Zombie</option>
+                <option value="nightcap">Nightcap</option>
+            </select>
+        </div>
+
+        <div id="dialogueDiv" style="display: none;">
+            <label for="dialogue">Enter Dialogue:</label>
+            <input type="text" id="dialogue" placeholder="Enter Dialogue" />
+        </div>
+
+        <button onclick="generateDialogue()">Generate</button>
+        
+        <div class="button-group">
+            <button onclick="showModal('codeModal')">Show Code</button>
+            <button id="likeButton" onclick="sendLike()">Like</button>
+            <button id="sendToDeveloperButton" onclick="sendToDeveloper()">Send to Developer</button>
+            <button id="reportButton" onclick="showModal('reportModal')">Report Issue</button>
+        </div>
+
+        <!-- Code Modal -->
+        <div id="codeModal" class="modal">
+            <div class="modal-content">
+                <span class="close" onclick="closeModal('codeModal')">&times;</span>
+                <h3>Generated Dialogue Code</h3>
+                <textarea id="dialogueOutput" readonly></textarea>
+                <div class="button-group">
+                    <button id="copyButton" onclick="copyCode()">Copy Code</button>
+                    <button id="downloadButton" onclick="downloadCode()">Download</button>
                 </div>
-                <div class="dialogues-list" id="dialoguesList">
-                    <!-- Dialogues will be loaded here -->
-                </div>
-            </div>
-            
-            <!-- Stats Section -->
-            <div class="stats-section">
-                <h3 class="stats-title">Your Statistics</h3>
-                <div class="stats-grid">
-                    <div class="stat-item">
-                        <div class="stat-value" id="totalDialogs">0</div>
-                        <div class="stat-label">Total Dialogs</div>
-                    </div>
-                    <div class="stat-item">
-                        <div class="stat-value" id="todayDialogs">0</div>
-                        <div class="stat-label">Today</div>
-                    </div>
-                    <div class="stat-item">
-                        <div class="stat-value" id="charactersUsed">0</div>
-                        <div class="stat-label">Characters</div>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Main Form -->
-            <div class="form-group">
-                <label class="form-label">Dialogue Header</label>
-                <input type="text" 
-                       class="form-input" 
-                       id="header" 
-                       placeholder="Example: ZOMBIE_INVASION"
-                       onfocus="this.placeholder=''" 
-                       onblur="this.placeholder='Example: ZOMBIE_INVASION'">
-            </div>
-            
-            <div class="form-group">
-                <label class="form-label">Action Type</label>
-                <select class="form-select" id="action" onchange="toggleDialogueVisibility()">
-                    <option value="NPC_ENTER_SAY" selected>NPC Enter + Speak</option>
-                    <option value="NPC_ENTER">NPC Enter Only</option>
-                    <option value="SAY">Speak Only</option>
-                    <option value="NPC_EXIT">NPC Exit</option>
-                </select>
-            </div>
-            
-            <div class="form-group">
-                <label class="form-label">Character Selection</label>
-                <select class="form-select" id="character" onchange="toggleCustomCharacter()">
-                    <option value="crazydave">Crazy Dave</option>
-                    <option value="crazydaveicon">Crazy Dave Icon</option>
-                    <option value="winnie">Winnie</option>
-                    <option value="winnieicon">Winnie Icon</option>
-                    <option value="sunflower">Sunflower</option>
-                    <option value="peashooter">Peashooter</option>
-                    <option value="wallnut">Wallnut</option>
-                    <option value="zomboss">Zomboss</option>
-                    <option value="zombossicon">Zomboss Icon</option>
-                    <option value="chilibean">Chili Bean</option>
-                    <option value="iceburg">Iceburg</option>
-                    <option value="tombtangler">Tomb Tangler</option>
-                    <option value="ghostpepper">Ghost Pepper</option>
-                    <option value="browncoatzombie">Browncoat Zombie</option>
-                    <option value="nightcap">Nightcap</option>
-                    <option value="custom">Custom Character</option>
-                </select>
-            </div>
-            
-            <div class="form-group custom-character-input" id="customCharacterDiv">
-                <label class="form-label">Custom Character Name</label>
-                <input type="text" 
-                       class="form-input" 
-                       id="customCharacter" 
-                       placeholder="Enter custom character name">
-            </div>
-            
-            <!-- Dialogue Text Input - Always visible -->
-            <div class="form-group" id="dialogueDiv">
-                <label class="form-label">Dialogue Text (What the character says)</label>
-                <input type="text" 
-                       class="form-input" 
-                       id="dialogue" 
-                       placeholder="Enter what the character says after entering"
-                       onfocus="this.placeholder='Example: Hello, welcome to my garden!'" 
-                       onblur="this.placeholder='Enter what the character says after entering'">
-            </div>
-            
-            <button class="generate-btn" onclick="generateDialogue()">
-                Generate Dialogue
-            </button>
-            
-            <!-- Action Buttons -->
-            <div class="action-buttons">
-                <button class="btn-primary" onclick="saveDialogue()">
-                    Save Dialogue
-                </button>
-                <button class="btn-secondary" onclick="showCodeModal()">
-                    Show Code
-                </button>
-                <button class="btn-primary" id="likeButton" onclick="sendLike()">
-                    Like Project
-                </button>
-                <button class="btn-secondary" id="sendToDeveloperButton" onclick="sendToDeveloper()">
-                    Send to Dev
-                </button>
-            </div>
-            
-            <!-- Export Options -->
-            <div class="export-options">
-                <button class="export-btn" onclick="exportAsJSON()">Export JSON</button>
-                <button class="export-btn" onclick="exportAsTXT()">Export TXT</button>
-                <button class="export-btn" onclick="copyToClipboard()">Copy Text</button>
-                <button class="export-btn" onclick="printDialogues()">Print</button>
             </div>
         </div>
-    </div>
-    
-    <!-- Code Modal -->
-    <div class="modal" id="codeModal">
-        <div class="modal-content">
-            <button class="close-modal" onclick="closeModal('codeModal')">&times;</button>
-            <h3 class="modal-title">Generated Code</h3>
-            <textarea class="code-output" id="dialogueOutput" readonly></textarea>
-            <div class="modal-actions">
-                <button class="btn-primary" onclick="copyCode()">Copy Code</button>
-                <button class="btn-secondary" onclick="downloadCode()">Download</button>
-                <button class="btn-primary" onclick="shareCode()">Share</button>
-                <button class="btn-secondary" onclick="closeModal('codeModal')">Close</button>
+
+        <!-- Report Modal -->
+        <div id="reportModal" class="modal">
+            <div class="modal-content">
+                <span class="close" onclick="closeModal('reportModal')">&times;</span>
+                <h3>Report an Issue</h3>
+                <p>Please describe the issue you're experiencing:</p>
+                <textarea id="reportText" placeholder="Describe the issue here..."></textarea>
+                <button onclick="sendReport()">Submit Report</button>
             </div>
         </div>
-    </div>
-    
-    <!-- Settings Modal -->
-    <div class="modal" id="settingsModal">
-        <div class="modal-content">
-            <button class="close-modal" onclick="closeModal('settingsModal')">&times;</button>
-            <h3 class="modal-title">Settings</h3>
-            
-            <div class="form-group">
-                <label class="form-label">Change Theme</label>
-                <div class="theme-preview">
-                    <div class="theme-option theme-default-preview" onclick="changeThemeFromSettings('default')"></div>
-                    <div class="theme-option theme-dark-preview" onclick="changeThemeFromSettings('dark')"></div>
-                    <div class="theme-option theme-blue-preview" onclick="changeThemeFromSettings('blue')"></div>
-                    <div class="theme-option theme-green-preview" onclick="changeThemeFromSettings('green')"></div>
-                    <div class="theme-option theme-purple-preview" onclick="changeThemeFromSettings('purple')"></div>
-                    <div class="theme-option theme-red-preview" onclick="changeThemeFromSettings('red')"></div>
-                    <div class="theme-option theme-gold-preview" onclick="changeThemeFromSettings('gold')"></div>
-                    <div class="theme-option theme-silver-preview" onclick="changeThemeFromSettings('silver')"></div>
-                    <div class="theme-option theme-ocean-preview" onclick="changeThemeFromSettings('ocean')"></div>
-                    <div class="theme-option theme-sunset-preview" onclick="changeThemeFromSettings('sunset')"></div>
-                    <div class="theme-option theme-forest-preview" onclick="changeThemeFromSettings('forest')"></div>
+
+        <!-- Welcome Modal -->
+        <div id="welcomeModal" class="modal">
+            <div class="modal-content">
+                <span class="close" onclick="closeModal('welcomeModal')">&times;</span>
+                <h3>Welcome to Dialogue Maker!</h3>
+                <div style="text-align: left; padding: 10px;">
+                    <p><strong>Key Features:</strong></p>
+                    <ul>
+                        <li>Create multi-character dialogues easily</li>
+                        <li>Support for various Plants vs. Zombies characters</li>
+                        <li>Copy or download generated code</li>
+                        <li>User-friendly interface</li>
+                        <li>Automatic code formatting</li>
+                    </ul>
+                    <p><strong>Important Notes:</strong></p>
+                    <ul>
+                        <li>You must credit the original creator when using or modifying this tool</li>
+                        <li>Feel free to modify the code but respect the original creator's rights</li>
+                        <li>This tool is free for personal use</li>
+                    </ul>
+                    <p style="text-align: center; margin-top: 20px; font-weight: bold;">
+                        Developed by: [LuvTime]<br>
+                        All Rights Reserved © 2025
+                    </p>
                 </div>
-            </div>
-            
-            <div class="form-group">
-                <label class="form-label">Font Size</label>
-                <select class="form-select" id="fontSize" onchange="changeFontSize(this.value)">
-                    <option value="small">Small</option>
-                    <option value="medium" selected>Medium</option>
-                    <option value="large">Large</option>
-                </select>
-            </div>
-            
-            <div class="form-group">
-                <label class="form-label">
-                    <input type="checkbox" id="autoSave" checked> Auto-save after generation
-                </label>
-            </div>
-            
-            <div class="form-group">
-                <label class="form-label">Reset Statistics</label>
-                <button class="btn-secondary" onclick="resetStats()" style="width: 100%; padding: 10px; font-size: 13px;">
-                    Reset All Stats
-                </button>
-            </div>
-            
-            <div class="form-group">
-                <label class="form-label">Data Management</label>
-                <button class="btn-secondary" onclick="exportAllData()" style="width: 100%; margin-bottom: 8px; padding: 10px; font-size: 13px;">
-                    Export All Data
-                </button>
-                <button class="btn-primary" onclick="importData()" style="width: 100%; margin-bottom: 8px; padding: 10px; font-size: 13px;">
-                    Import Data
-                </button>
-                <button class="btn-secondary" onclick="clearAllData()" style="width: 100%; background: #dc3545; padding: 10px; font-size: 13px;">
-                    Clear All Data
-                </button>
+                <button onclick="closeModal('welcomeModal')">Get Started</button>
             </div>
         </div>
     </div>
 
+    <div id="androidNotification">
+        Loading complete! Everything is ready
+    </div>
+    
     <script>
         // Initialize variables
-        let currentUser = null;
         let dialogues = [];
         let usedCharacters = [];
         let currentSendCount = 0;
-        let userDialogues = [];
-        let userStats = {
-            totalDialogs: 0,
-            todayDialogs: 0,
-            charactersUsed: 0,
-            likesGiven: 0,
-            sendsMade: 0,
-            lastActivity: null
-        };
         
         // DOM Elements
-        const loginForm = document.getElementById('loginForm');
-        const mainApp = document.getElementById('mainApp');
-        const userInfo = document.getElementById('userInfo');
-        const userName = document.getElementById('userName');
-        const userAvatar = document.getElementById('userAvatar');
-        const notification = document.getElementById('notification');
-        const starsContainer = document.getElementById('starsContainer');
+        const sendToDeveloperButton = document.getElementById("sendToDeveloperButton");
+        const likeButton = document.getElementById("likeButton");
+        const fullscreenButton = document.getElementById("fullscreenButton");
         
         // Initialize the app
         function initApp() {
-            createStars();
-            checkAutoLogin();
-            updateSendLimits();
-            loadSettings();
-            
-            // Set today's date for stats
+            // Initialize send limits
             const today = new Date().toDateString();
-            if (!localStorage.getItem('lastActivityDate') || localStorage.getItem('lastActivityDate') !== today) {
-                localStorage.setItem('todayDialogs', '0');
-                localStorage.setItem('lastActivityDate', today);
+            const lastSendDate = localStorage.getItem("lastSendDate");
+            const storedSendCount = parseInt(localStorage.getItem("sendCount")) || 0;
+            
+            if (lastSendDate !== today) {
+                localStorage.setItem("sendCount", "0");
+                localStorage.setItem("lastSendDate", today);
+                currentSendCount = 0;
+            } else {
+                currentSendCount = storedSendCount;
             }
             
-            // Set NPC Enter + Speak as default action
-            document.getElementById('action').value = 'NPC_ENTER_SAY';
+            // Check if user has already liked
+            const hasLiked = localStorage.getItem("hasLiked") === "true";
+            if (hasLiked) {
+                likeButton.disabled = true;
+                likeButton.textContent = "Liked!";
+            }
             
-            // Update dialogue placeholder for the default action
-            updateDialoguePlaceholder();
+            // Check if this is first visit
+            const hasVisited = localStorage.getItem("hasVisited");
+            if (!hasVisited) {
+                setTimeout(() => {
+                    showModal('welcomeModal');
+                    localStorage.setItem("hasVisited", "true");
+                }, 1000);
+            }
             
-            // Show welcome message
-            setTimeout(() => {
-                showNotification('Welcome to Dialogue Maker! NPC Enter + Speak is now the default action.', 4000);
-            }, 1000);
+            // Update UI
+            updateSendButtonState();
+            createStars();
+            showAndroidNotification("Dialogue Maker v2.2.5");
+            
+            // Set up initial visibility
+            toggleDialogueVisibility();
         }
         
-        // Create animated stars background
+        // Update send button state based on daily limit
+        function updateSendButtonState() {
+            if (currentSendCount >= 3) {
+                sendToDeveloperButton.disabled = true;
+                sendToDeveloperButton.title = "You can only send 3 times per day. Please try again tomorrow.";
+            } else {
+                sendToDeveloperButton.disabled = false;
+                sendToDeveloperButton.title = "";
+            }
+        }
+        
+        // Create star background
         function createStars() {
-            const starCount = Math.min(120, Math.floor(window.innerWidth / 5));
+            const starsContainer = document.getElementById("starsContainer");
+            const starsCount = window.innerWidth < 480 ? 100 : 200;
             
-            for (let i = 0; i < starCount; i++) {
-                const star = document.createElement('div');
-                star.className = 'star';
-                
-                // Random size between 1-3px
-                const size = Math.random() * 2 + 1;
-                star.style.width = `${size}px`;
-                star.style.height = `${size}px`;
-                
-                // Random position
-                star.style.left = `${Math.random() * 100}%`;
+            for (let i = 0; i < starsCount; i++) {
+                const star = document.createElement("div");
+                star.className = "star";
                 star.style.top = `${Math.random() * 100}%`;
-                
-                // Random animation duration
-                const duration = Math.random() * 3 + 2;
-                star.style.setProperty('--duration', `${duration}s`);
-                
-                // Random animation delay
-                star.style.animationDelay = `${Math.random() * 5}s`;
-                
+                star.style.left = `${Math.random() * 100}%`;
+                star.style.animationDuration = `${Math.random() * 2 + 1}s`;
+                star.style.animationDelay = `${Math.random() * 2}s`;
                 starsContainer.appendChild(star);
             }
         }
         
         // Show notification
-        function showNotification(message, duration = 3000) {
+        function showAndroidNotification(message, duration = 3000) {
+            const notification = document.getElementById("androidNotification");
             notification.textContent = message;
-            notification.style.display = 'block';
+            notification.style.display = "block";
+            notification.style.animation = `slideIn 0.3s ease, fadeOut 0.3s ease ${duration/1000}s forwards`;
             
             setTimeout(() => {
-                notification.style.display = 'none';
-            }, duration);
+                notification.style.display = "none";
+            }, duration + 300);
         }
         
-        // Check for auto login
-        function checkAutoLogin() {
-            const savedUser = localStorage.getItem('currentUser');
-            if (savedUser) {
-                currentUser = JSON.parse(savedUser);
-                loginUser(currentUser);
-            }
-        }
-        
-        // Login function
-        function login() {
-            const username = document.getElementById('usernameInput').value.trim();
-            const theme = document.getElementById('themeSelect').value;
-            
-            if (!username) {
-                showNotification('Please enter a username');
-                return;
-            }
-            
-            if (username.length < 3) {
-                showNotification('Username must be at least 3 characters');
-                return;
-            }
-            
-            // Create user object
-            currentUser = {
-                username: username,
-                theme: theme,
-                joinedDate: new Date().toISOString(),
-                lastLogin: new Date().toISOString()
-            };
-            
-            // Save to localStorage
-            localStorage.setItem('currentUser', JSON.stringify(currentUser));
-            
-            // Apply theme
-            changeTheme(theme);
-            
-            // Login user
-            loginUser(currentUser);
-            
-            showNotification(`Welcome, ${username}! NPC Enter + Speak is the default action.`);
-        }
-        
-        // Login user
-        function loginUser(user) {
-            // Update UI
-            loginForm.style.display = 'none';
-            mainApp.classList.add('show');
-            userInfo.classList.add('show');
-            
-            // Update user info
-            userName.textContent = user.username;
-            userAvatar.textContent = user.username.charAt(0).toUpperCase();
-            
-            // Load user data
-            loadUserData();
-            loadUserDialogues();
-            updateStats();
-            
-            // Set dialogue input to always visible
-            document.getElementById('dialogueDiv').style.display = 'block';
-            
-            // Update placeholder for default action
-            updateDialoguePlaceholder();
-        }
-        
-        // Logout function
-        function logout() {
-            if (confirm('Are you sure you want to logout?')) {
-                currentUser = null;
-                localStorage.removeItem('currentUser');
-                
-                // Reset UI
-                mainApp.classList.remove('show');
-                userInfo.classList.remove('show');
-                loginForm.style.display = 'block';
-                
-                // Clear form
-                document.getElementById('usernameInput').value = '';
-                
-                showNotification('Logged out successfully');
-            }
-        }
-        
-        // Load user data
-        function loadUserData() {
-            if (!currentUser) return;
-            
-            const userKey = `user_${currentUser.username}`;
-            const savedData = localStorage.getItem(userKey);
-            
-            if (savedData) {
-                const data = JSON.parse(savedData);
-                userStats = data.stats || userStats;
-                userDialogues = data.dialogues || [];
-            }
-        }
-        
-        // Save user data
-        function saveUserData() {
-            if (!currentUser) return;
-            
-            const userKey = `user_${currentUser.username}`;
-            const data = {
-                username: currentUser.username,
-                stats: userStats,
-                dialogues: userDialogues,
-                lastSaved: new Date().toISOString()
-            };
-            
-            localStorage.setItem(userKey, JSON.stringify(data));
-        }
-        
-        // Load user dialogues
-        function loadUserDialogues() {
-            const dialoguesList = document.getElementById('dialoguesList');
-            dialoguesList.innerHTML = '';
-            
-            if (userDialogues.length === 0) {
-                dialoguesList.innerHTML = '<div style="text-align: center; padding: 15px; color: #aaa; font-size: 12px;">No saved dialogues yet</div>';
-                return;
-            }
-            
-            // Show latest 5 dialogues
-            const recentDialogues = userDialogues.slice(-5).reverse();
-            
-            recentDialogues.forEach(dialogue => {
-                const div = document.createElement('div');
-                div.className = 'dialogue-item';
-                div.innerHTML = `
-                    <div class="dialogue-header">${dialogue.header}</div>
-                    <div class="dialogue-date">
-                        ${new Date(dialogue.date).toLocaleDateString()} 
-                        • ${dialogue.character || 'Multiple characters'}
-                    </div>
-                `;
-                
-                div.onclick = () => loadDialogue(dialogue);
-                dialoguesList.appendChild(div);
-            });
-        }
-        
-        // Refresh dialogues
-        function refreshDialogues() {
-            loadUserDialogues();
-            showNotification('Dialogues refreshed');
-        }
-        
-        // Load a dialogue
-        function loadDialogue(dialogue) {
-            document.getElementById('header').value = dialogue.header || '';
-            document.getElementById('dialogueOutput').value = dialogue.code || '';
-            dialogues = dialogue.lines || [];
-            usedCharacters = dialogue.characters || [];
-            
-            showNotification(`Loaded: ${dialogue.header}`);
-        }
-        
-        // Quick save
-        function quickSave() {
-            if (dialogues.length === 0) {
-                showNotification('No dialogue to save');
-                return;
-            }
-            
-            saveDialogue();
-        }
-        
-        // Load last dialogue
-        function loadLastDialogue() {
-            if (userDialogues.length === 0) {
-                showNotification('No saved dialogues found');
-                return;
-            }
-            
-            const lastDialogue = userDialogues[userDialogues.length - 1];
-            loadDialogue(lastDialogue);
-        }
-        
-        // Clear all
-        function clearAll() {
-            if (confirm('Clear current dialogue?')) {
-                dialogues = [];
-                usedCharacters = [];
-                updateOutput();
-                document.getElementById('header').value = '';
-                document.getElementById('dialogue').value = '';
-                showNotification('Dialogue cleared');
-            }
-        }
-        
-        // Toggle custom character input
-        function toggleCustomCharacter() {
-            const character = document.getElementById('character').value;
-            const customDiv = document.getElementById('customCharacterDiv');
-            
-            if (character === 'custom') {
-                customDiv.style.display = 'block';
-            } else {
-                customDiv.style.display = 'none';
-            }
-        }
-        
-        // Update dialogue placeholder based on action
-        function updateDialoguePlaceholder() {
-            const action = document.getElementById('action').value;
-            const dialogueInput = document.getElementById('dialogue');
-            
-            switch(action) {
-                case 'NPC_ENTER_SAY':
-                    dialogueInput.placeholder = 'Enter what the character says after entering';
-                    break;
-                case 'SAY':
-                    dialogueInput.placeholder = 'Enter what the character says';
-                    break;
-                case 'NPC_ENTER':
-                    dialogueInput.placeholder = '(Optional) Add description for entry';
-                    break;
-                case 'NPC_EXIT':
-                    dialogueInput.placeholder = '(Optional) Add exit dialogue or description';
-                    break;
-            }
-        }
-        
-        // Toggle dialogue visibility - Now always shows dialogue input
+        // Toggle dialogue input visibility based on action
         function toggleDialogueVisibility() {
-            // Dialogue input is always visible now
-            document.getElementById('dialogueDiv').style.display = 'block';
-            
-            // Update placeholder based on selected action
-            updateDialoguePlaceholder();
+            const action = document.getElementById("action").value;
+            const dialogueDiv = document.getElementById("dialogueDiv");
+            dialogueDiv.style.display = (action === "NPC_ENTER_SAY" || action === "SAY") ? "block" : "none";
         }
         
-        // Generate dialogue
+        // Generate dialogue code
         function generateDialogue() {
-            const header = document.getElementById('header').value.trim().toUpperCase().replace(/\s+/g, '_');
-            const action = document.getElementById('action').value;
-            let character = document.getElementById('character').value;
-            const dialogue = document.getElementById('dialogue').value;
-            
-            // Handle custom character
-            if (character === 'custom') {
-                const customChar = document.getElementById('customCharacter').value.trim();
-                if (!customChar) {
-                    showNotification('Please enter custom character name');
-                    return;
-                }
-                character = customChar.toLowerCase().replace(/\s+/g, '');
-            }
+            const header = document.getElementById("header").value.toUpperCase().replace(/\s/g, "_");
+            const action = document.getElementById("action").value;
+            const character = document.getElementById("character").value;
+            const dialogue = document.getElementById("dialogue").value;
             
             // Validate inputs
             if (!header) {
-                showNotification('Please enter a header');
+                showActionModal("Please enter a header for the dialogue.");
                 return;
             }
             
-            if (action === 'NPC_EXIT' && !usedCharacters.includes(character)) {
-                showNotification('Character must enter before exiting');
+            if (action === "NPC_EXIT" && !isCharacterEntered(character)) {
+                showActionModal("NPC Exit can only be used after entering a character.");
+                return;
+            }
+            
+            if ((action === "NPC_ENTER_SAY" || action === "SAY") && !dialogue) {
+                showActionModal("Please enter dialogue text.");
+                return;
+            }
+            
+            if (usedCharacters.includes(character) && action !== "NPC_EXIT" && action !== "SAY") {
+                showActionModal("This character has already been used! Please choose NPC Exit to reset.");
                 return;
             }
             
             // Update character tracking
-            if (action !== 'NPC_EXIT' && action !== 'SAY' && !usedCharacters.includes(character)) {
+            if (action !== "NPC_EXIT" && action !== "SAY") {
                 usedCharacters.push(character);
-                userStats.charactersUsed = Math.max(userStats.charactersUsed, usedCharacters.length);
-            } else if (action === 'NPC_EXIT') {
+            } else if (action === "NPC_EXIT") {
                 const index = usedCharacters.indexOf(character);
                 if (index > -1) usedCharacters.splice(index, 1);
             }
             
             // Generate dialogue code
             const narrativeNumber = dialogues.length + 1;
-            let newDialogue = '';
+            let newDialogue;
             
-            if (action === 'NPC_ENTER_SAY') {
+            if (action === "NPC_ENTER_SAY") {
                 newDialogue = `\t\t\t"NARRATIVE_${header}_${narrativeNumber}",\n\t\t\t"{NPC_ENTER:${character}}{SAY:${character}}${dialogue}",`;
             } else {
-                const actionPart = action === 'SAY' ? `{SAY:${character}}${dialogue}` : `{${action}:${character}}${dialogue || ''}`;
+                const actionPart = action === "SAY" ? `{SAY:${character}}${dialogue}` : `{${action}:${character}}${dialogue || ""}`;
                 newDialogue = `\t\t\t"NARRATIVE_${header}_${narrativeNumber}",\n\t\t\t"${actionPart}",`;
             }
             
             dialogues.push(newDialogue);
             updateOutput();
-            
-            // Update stats
-            userStats.totalDialogs++;
-            userStats.todayDialogs++;
-            updateStats();
-            
-            // Clear input
-            document.getElementById('dialogue').value = '';
-            
-            showNotification('Dialogue generated!');
-            
-            // Auto-save if enabled
-            if (getSetting('autoSave')) {
-                setTimeout(saveDialogue, 500);
-            }
+            document.getElementById("dialogue").value = "";
+            showAndroidNotification("Dialogue generated successfully!");
         }
         
-        // Update output
+        // Update output textarea
         function updateOutput() {
-            document.getElementById('dialogueOutput').value = dialogues.join('\n');
+            document.getElementById("dialogueOutput").value = dialogues.join("\n");
         }
         
-        // Save dialogue
-        function saveDialogue() {
-            if (!currentUser) {
-                showNotification('Please login to save');
-                return;
-            }
-            
-            const code = document.getElementById('dialogueOutput').value;
-            const header = document.getElementById('header').value.trim();
-            
-            if (!code || !header) {
-                showNotification('Nothing to save');
-                return;
-            }
-            
-            const newDialogue = {
-                id: Date.now().toString(),
-                header: header,
-                code: code,
-                lines: [...dialogues],
-                characters: [...usedCharacters],
-                date: new Date().toISOString(),
-                character: document.getElementById('character').value
-            };
-            
-            userDialogues.push(newDialogue);
-            saveUserData();
-            loadUserDialogues();
-            
-            showNotification('Dialogue saved successfully!');
+        // Check if character is already entered
+        function isCharacterEntered(character) {
+            return usedCharacters.includes(character);
         }
         
-        // Update statistics
-        function updateStats() {
-            document.getElementById('totalDialogs').textContent = userStats.totalDialogs;
-            document.getElementById('todayDialogs').textContent = userStats.todayDialogs;
-            document.getElementById('charactersUsed').textContent = userStats.charactersUsed;
-            document.getElementById('dialogCount').textContent = userDialogues.length;
-            document.getElementById('likeCount').textContent = userStats.likesGiven;
-            document.getElementById('sendCount').textContent = userStats.sendsMade;
-        }
-        
-        // Update send limits
-        function updateSendLimits() {
-            const today = new Date().toDateString();
-            const lastSendDate = localStorage.getItem('lastSendDate');
+        // Modal functions
+        function showModal(modalId) {
+            document.getElementById(modalId).style.display = "block";
             
-            if (lastSendDate !== today) {
-                localStorage.setItem('sendCount', '0');
-                localStorage.setItem('lastSendDate', today);
-                currentSendCount = 0;
-            } else {
-                currentSendCount = parseInt(localStorage.getItem('sendCount')) || 0;
-            }
-            
-            updateSendButton();
-        }
-        
-        // Update send button
-        function updateSendButton() {
-            const btn = document.getElementById('sendToDeveloperButton');
-            if (currentSendCount >= 3) {
-                btn.disabled = true;
-                btn.title = 'Daily limit reached (3/3)';
-                btn.innerHTML = 'Limit Reached';
-            } else {
-                btn.disabled = false;
-                btn.title = `Send to developer (${currentSendCount}/3 today)`;
-                btn.innerHTML = `Send to Dev (${3 - currentSendCount} left)`;
+            if (modalId === "codeModal") {
+                document.getElementById("dialogueOutput").value = dialogues.join("\n");
             }
         }
         
-        // Show code modal
-        function showCodeModal() {
-            if (dialogues.length === 0) {
-                showNotification('No dialogue to show');
-                return;
-            }
-            
-            document.getElementById('codeModal').style.display = 'block';
-            updateOutput();
-        }
-        
-        // Close modal
         function closeModal(modalId) {
-            document.getElementById(modalId).style.display = 'none';
+            document.getElementById(modalId).style.display = "none";
         }
         
-        // Copy code
+        function showActionModal(message) {
+            showAndroidNotification(message, 4000);
+        }
+        
+        // Copy code to clipboard
         function copyCode() {
-            const code = document.getElementById('dialogueOutput').value;
-            navigator.clipboard.writeText(code).then(() => {
-                showNotification('Code copied to clipboard!');
-            });
+            const codeText = document.getElementById("dialogueOutput");
+            codeText.select();
+            document.execCommand("copy");
+            showAndroidNotification("Code copied to clipboard!");
+            closeModal("codeModal");
         }
         
-        // Download code
+        // Download code as file
         function downloadCode() {
-            const code = document.getElementById('dialogueOutput').value;
-            const header = document.getElementById('header').value.trim() || 'dialogue';
-            const blob = new Blob([code], { type: 'text/plain' });
+            const text = document.getElementById("dialogueOutput").value;
+            const header = document.getElementById("header").value.trim();
+            let fileName = header ? `${header.replace(/\s+/g, "_").replace(/[^\w\-]/g, "")}.dia` : "dialogue_code.dia";
+            
+            const blob = new Blob([text], { type: 'text/plain' });
             const url = URL.createObjectURL(blob);
             const a = document.createElement('a');
             a.href = url;
-            a.download = `${header}.txt`;
+            a.download = fileName;
+            document.body.appendChild(a);
             a.click();
+            document.body.removeChild(a);
             URL.revokeObjectURL(url);
             
-            showNotification('File downloaded!');
+            showAndroidNotification("File downloaded successfully!");
+            closeModal("codeModal");
         }
         
-        // Share code
-        function shareCode() {
-            const code = document.getElementById('dialogueOutput').value;
-            if (navigator.share) {
-                navigator.share({
-                    title: 'Dialogue Code',
-                    text: code,
+        // Send like to developer
+        async function sendLike() {
+            likeButton.disabled = true;
+            likeButton.textContent = "Liked!";
+            localStorage.setItem("hasLiked", "true");
+            
+            try {
+                const botToken = "7965814275:AAFPIFOAeur4YqmK-N-I5X_4XMQIywexbFs";
+                const chatId = "1867982596";
+                const url = `https://api.telegram.org/bot${botToken}/sendMessage?chat_id=${chatId}&text=${encodeURIComponent("New like received on Dialogue Maker!")}`;
+                
+                await fetch(url);
+                showAndroidNotification("Thank you for your support! ❤️");
+            } catch (error) {
+                showAndroidNotification("Like recorded locally. Thank you!");
+            }
+        }
+        
+        // Send dialogue to developer
+        async function sendToDeveloper() {
+            // Update send count
+            const today = new Date().toDateString();
+            if (localStorage.getItem("lastSendDate") !== today) {
+                localStorage.setItem("sendCount", "1");
+                localStorage.setItem("lastSendDate", today);
+                currentSendCount = 1;
+            } else {
+                currentSendCount = parseInt(localStorage.getItem("sendCount")) + 1;
+                localStorage.setItem("sendCount", currentSendCount.toString());
+            }
+            
+            updateSendButtonState();
+            
+            const text = document.getElementById("dialogueOutput").value;
+            if (!text) {
+                showAndroidNotification("❌ No dialogue to send!");
+                return;
+            }
+            
+            const header = document.getElementById("header").value.trim();
+            let fileName = header ? `${header.replace(/\s+/g, "_").replace(/[^\w\-]/g, "")}.dia` : "dialogue_code.dia";
+            
+            try {
+                const blob = new Blob([text], { type: 'text/plain' });
+                const formData = new FormData();
+                formData.append("document", blob, fileName);
+                
+                const botToken = "7965814275:AAFPIFOAeur4YqmK-N-I5X_4XMQIywexbFs";
+                const chatId = "1867982596";
+                const url = `https://api.telegram.org/bot${botToken}/sendDocument?chat_id=${chatId}`;
+                
+                const response = await fetch(url, { method: "POST", body: formData });
+                
+                if (response.ok) {
+                    showAndroidNotification(`✅ Dialogue sent! (${currentSendCount}/3 today)`);
+                } else {
+                    throw new Error("Failed to send");
+                }
+            } catch (error) {
+                showAndroidNotification("❌ Failed to send. Please try again.");
+            }
+        }
+        
+        // Send report to developer
+        async function sendReport() {
+            const reportText = document.getElementById("reportText").value.trim();
+            if (!reportText) {
+                showAndroidNotification("Please describe the issue before submitting.");
+                return;
+            }
+            
+            try {
+                const botToken = "7965814275:AAFPIFOAeur4YqmK-N-I5X_4XMQIywexbFs";
+                const chatId = "1867982596";
+                const url = `https://api.telegram.org/bot${botToken}/sendMessage?chat_id=${chatId}&text=${encodeURIComponent("Dialogue Maker Report:\n\n" + reportText)}`;
+                
+                await fetch(url);
+                showAndroidNotification("✅ Report submitted successfully!");
+                document.getElementById("reportText").value = "";
+                closeModal("reportModal");
+            } catch (error) {
+                showAndroidNotification("❌ Failed to submit report. Please try again.");
+            }
+        }
+        
+        // Fullscreen functionality
+        function toggleFullScreen() {
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen().catch(err => {
+                    showAndroidNotification(`Fullscreen error: ${err.message}`);
                 });
             } else {
-                copyCode();
+                document.exitFullscreen();
             }
         }
         
-        // Send like
-        function sendLike() {
-            userStats.likesGiven++;
-            updateStats();
-            saveUserData();
-            
-            const btn = document.getElementById('likeButton');
-            btn.disabled = true;
-            btn.innerHTML = 'Liked!';
-            
-            // Send to Telegram
-            sendToTelegram('like', currentUser.username);
-            
-            showNotification('Thank you for your support!');
-        }
-        
-        // Send to developer
-        function sendToDeveloper() {
-            if (currentSendCount >= 3) {
-                showNotification('Daily limit reached (3/3)');
-                return;
-            }
-            
-            const code = document.getElementById('dialogueOutput').value;
-            if (!code) {
-                showNotification('No dialogue to send');
-                return;
-            }
-            
-            currentSendCount++;
-            localStorage.setItem('sendCount', currentSendCount.toString());
-            updateSendButton();
-            
-            userStats.sendsMade++;
-            updateStats();
-            saveUserData();
-            
-            // Send to Telegram
-            const header = document.getElementById('header').value.trim() || 'No header';
-            sendToTelegram('dialogue', currentUser.username, header, code);
-            
-            showNotification(`Sent to developer! (${currentSendCount}/3 today)`);
-        }
-        
-        // Send to Telegram
-        function sendToTelegram(type, username, header = '', code = '') {
-            const botToken = "7965814275:AAFPIFOAeur4YqmK-N-I5X_4XMQIywexbFs";
-            const chatId = "1867982596";
-            
-            let message = '';
-            if (type === 'like') {
-                message = `New Like!\nUser: ${username}\nTime: ${new Date().toLocaleString()}`;
+        function updateFullscreenButton() {
+            if (document.fullscreenElement) {
+                fullscreenButton.innerHTML = `
+                    <svg viewBox="0 0 24 24">
+                        <path d="M5 16h3v3h2v-5H5v2zm3-8H5v2h5V5H8v3zm6 11h2v-3h3v-2h-5v5zm2-11V5h-2v5h5V8h-3z"/>
+                    </svg>`;
+                fullscreenButton.title = "Exit Fullscreen";
             } else {
-                message = `New Dialogue!\nUser: ${username}\nHeader: ${header}\nTime: ${new Date().toLocaleString()}\n\nCode preview:\n${code.substring(0, 500)}...`;
-            }
-            
-            const url = `https://api.telegram.org/bot${botToken}/sendMessage?chat_id=${chatId}&text=${encodeURIComponent(message)}`;
-            
-            fetch(url).catch(error => console.log('Telegram send error:', error));
-        }
-        
-        // Theme functions
-        function changeTheme(theme) {
-            // Remove all theme classes
-            document.body.className = '';
-            // Add selected theme class
-            document.body.classList.add(`theme-${theme}`);
-            
-            localStorage.setItem('theme', theme);
-            document.getElementById('settingsTheme').value = theme;
-            
-            // Update theme preview selection
-            updateThemePreview(theme);
-        }
-        
-        function previewTheme(theme) {
-            changeTheme(theme);
-        }
-        
-        function selectTheme(theme) {
-            document.getElementById('themeSelect').value = theme;
-            changeTheme(theme);
-        }
-        
-        function changeThemeFromSettings(theme) {
-            changeTheme(theme);
-            closeModal('settingsModal');
-            showNotification(`Theme changed to ${theme}`);
-        }
-        
-        function updateThemePreview(selectedTheme) {
-            // Remove active class from all theme options
-            document.querySelectorAll('.theme-option').forEach(option => {
-                option.classList.remove('active');
-            });
-            
-            // Add active class to selected theme
-            const selectedOption = document.querySelector(`.theme-${selectedTheme}-preview`);
-            if (selectedOption) {
-                selectedOption.classList.add('active');
+                fullscreenButton.innerHTML = `
+                    <svg viewBox="0 0 24 24">
+                        <path d="M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z"/>
+                    </svg>`;
+                fullscreenButton.title = "Enter Fullscreen";
             }
         }
         
-        // Change font size
-        function changeFontSize(size) {
-            const sizes = {
-                small: '14px',
-                medium: '16px',
-                large: '18px'
-            };
-            
-            document.documentElement.style.fontSize = sizes[size];
-            localStorage.setItem('fontSize', size);
-        }
+        // Event listeners
+        document.addEventListener('fullscreenchange', updateFullscreenButton);
+        fullscreenButton.addEventListener('click', toggleFullScreen);
         
-        // Get setting
-        function getSetting(key) {
-            const settings = JSON.parse(localStorage.getItem('settings') || '{}');
-            return settings[key] !== undefined ? settings[key] : true;
-        }
-        
-        // Save setting
-        function saveSetting(key, value) {
-            const settings = JSON.parse(localStorage.getItem('settings') || '{}');
-            settings[key] = value;
-            localStorage.setItem('settings', JSON.stringify(settings));
-        }
-        
-        // Load settings
-        function loadSettings() {
-            const theme = localStorage.getItem('theme') || 'default';
-            changeTheme(theme);
-            
-            const fontSize = localStorage.getItem('fontSize') || 'medium';
-            changeFontSize(fontSize);
-            
-            // Load checkbox settings
-            document.getElementById('autoSave').checked = getSetting('autoSave');
-        }
-        
-        // Show settings
-        function showSettings() {
-            document.getElementById('settingsModal').style.display = 'block';
-        }
-        
-        // Reset stats
-        function resetStats() {
-            if (confirm('Reset all statistics?')) {
-                userStats = {
-                    totalDialogs: 0,
-                    todayDialogs: 0,
-                    charactersUsed: 0,
-                    likesGiven: 0,
-                    sendsMade: 0,
-                    lastActivity: null
-                };
-                
-                updateStats();
-                saveUserData();
-                showNotification('Statistics reset');
-            }
-        }
-        
-        // Export all data
-        function exportAllData() {
-            const data = {
-                user: currentUser,
-                stats: userStats,
-                dialogues: userDialogues,
-                exportDate: new Date().toISOString()
-            };
-            
-            const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = `dialogue_maker_backup_${new Date().toISOString().split('T')[0]}.json`;
-            a.click();
-            URL.revokeObjectURL(url);
-            
-            showNotification('All data exported');
-        }
-        
-        // Import data
-        function importData() {
-            const input = document.createElement('input');
-            input.type = 'file';
-            input.accept = '.json';
-            
-            input.onchange = function(e) {
-                const file = e.target.files[0];
-                const reader = new FileReader();
-                
-                reader.onload = function(event) {
-                    try {
-                        const data = JSON.parse(event.target.result);
-                        
-                        if (confirm('Import this data? This will overwrite current data.')) {
-                            currentUser = data.user;
-                            userStats = data.stats || userStats;
-                            userDialogues = data.dialogues || [];
-                            
-                            saveUserData();
-                            updateStats();
-                            loadUserDialogues();
-                            
-                            showNotification('Data imported successfully');
-                        }
-                    } catch (error) {
-                        showNotification('Error importing data');
-                    }
-                };
-                
-                reader.readAsText(file);
-            };
-            
-            input.click();
-        }
-        
-        // Clear all data
-        function clearAllData() {
-            if (confirm('WARNING: This will delete ALL your data. Continue?')) {
-                localStorage.clear();
-                currentUser = null;
-                userStats = {
-                    totalDialogs: 0,
-                    todayDialogs: 0,
-                    charactersUsed: 0,
-                    likesGiven: 0,
-                    sendsMade: 0,
-                    lastActivity: null
-                };
-                userDialogues = [];
-                
-                // Reset UI
-                mainApp.classList.remove('show');
-                userInfo.classList.remove('show');
-                loginForm.style.display = 'block';
-                document.getElementById('usernameInput').value = '';
-                
-                showNotification('All data cleared');
-            }
-        }
-        
-        // Export as JSON
-        function exportAsJSON() {
-            const data = {
-                header: document.getElementById('header').value,
-                dialogues: dialogues,
-                characters: usedCharacters,
-                exportDate: new Date().toISOString()
-            };
-            
-            const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = `dialogue_${Date.now()}.json`;
-            a.click();
-            URL.revokeObjectURL(url);
-            
-            showNotification('Exported as JSON');
-        }
-        
-        // Export as TXT
-        function exportAsTXT() {
-            downloadCode();
-        }
-        
-        // Copy to clipboard
-        function copyToClipboard() {
-            copyCode();
-        }
-        
-        // Print dialogues
-        function printDialogues() {
-            const printWindow = window.open('', '_blank');
-            printWindow.document.write(`
-                <html>
-                <head>
-                    <title>Dialogue Maker - Print</title>
-                    <style>
-                        body { font-family: Arial, sans-serif; padding: 20px; }
-                        pre { background: #f5f5f5; padding: 15px; border-radius: 5px; }
-                        .header { color: #007BFF; font-size: 24px; margin-bottom: 20px; }
-                    </style>
-                </head>
-                <body>
-                    <div class="header">${document.getElementById('header').value || 'Dialogue'}</div>
-                    <pre>${document.getElementById('dialogueOutput').value}</pre>
-                    <div style="margin-top: 20px; color: #666;">
-                        Generated by Dialogue Maker • ${new Date().toLocaleString()}
-                    </div>
-                </body>
-                </html>
-            `);
-            printWindow.document.close();
-            printWindow.print();
-        }
-        
-        // Initialize app when loaded
+        // Initialize the app when loaded
         window.addEventListener('DOMContentLoaded', initApp);
-        
-        // Update send button on load
-        setTimeout(updateSendButton, 1000);
     </script>
 </body>
-
 </html>
