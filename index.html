@@ -7,43 +7,95 @@
     <style>
         * {
             box-sizing: border-box;
+            outline: none !important;
         }
         
         :root {
             --theme-primary: #007BFF;
+            --theme-secondary: #0056b3;
+            --theme-accent: #ff6b6b;
             --theme-bg: #1a1a1a;
             --theme-text: #ffffff;
             --theme-input: #333333;
             --theme-modal: #333;
             --theme-stars: rgba(255, 255, 255, 0.8);
+            --theme-card: rgba(40, 40, 40, 0.7);
+            --theme-shadow: rgba(0, 0, 0, 0.3);
+            --theme-border: rgba(255, 255, 255, 0.1);
+            --theme-success: #4CAF50;
+            --theme-warning: #FF9800;
+            --theme-error: #F44336;
             --blur-intensity: 10px;
+            --border-radius: 15px;
+            --transition-speed: 0.3s;
         }
         
         .theme-light {
             --theme-primary: #4A6FA5;
+            --theme-secondary: #3a5a8a;
+            --theme-accent: #ff6b6b;
             --theme-bg: #f0f0f0;
             --theme-text: #333333;
             --theme-input: #ffffff;
             --theme-modal: #ffffff;
             --theme-stars: rgba(0, 0, 0, 0.6);
+            --theme-card: rgba(255, 255, 255, 0.7);
+            --theme-shadow: rgba(0, 0, 0, 0.1);
+            --theme-border: rgba(0, 0, 0, 0.1);
+            --theme-success: #4CAF50;
+            --theme-warning: #FF9800;
+            --theme-error: #F44336;
         }
         
         .theme-purple {
             --theme-primary: #9C27B0;
+            --theme-secondary: #7b1fa2;
+            --theme-accent: #ff4081;
             --theme-bg: #2a0a35;
             --theme-text: #ffffff;
             --theme-input: #4a1a5a;
             --theme-modal: #3a1a45;
             --theme-stars: rgba(156, 39, 176, 0.8);
+            --theme-card: rgba(58, 26, 69, 0.7);
+            --theme-shadow: rgba(0, 0, 0, 0.3);
+            --theme-border: rgba(156, 39, 176, 0.2);
+            --theme-success: #4CAF50;
+            --theme-warning: #FF9800;
+            --theme-error: #F44336;
         }
         
         .theme-green {
             --theme-primary: #4CAF50;
+            --theme-secondary: #388e3c;
+            --theme-accent: #ff9800;
             --theme-bg: #0a2e0a;
             --theme-text: #ffffff;
             --theme-input: #1a5a1a;
             --theme-modal: #1a451a;
             --theme-stars: rgba(76, 175, 80, 0.8);
+            --theme-card: rgba(26, 69, 26, 0.7);
+            --theme-shadow: rgba(0, 0, 0, 0.3);
+            --theme-border: rgba(76, 175, 80, 0.2);
+            --theme-success: #4CAF50;
+            --theme-warning: #FF9800;
+            --theme-error: #F44336;
+        }
+        
+        .theme-custom {
+            --theme-primary: #007BFF;
+            --theme-secondary: #0056b3;
+            --theme-accent: #ff6b6b;
+            --theme-bg: #1a1a1a;
+            --theme-text: #ffffff;
+            --theme-input: #333333;
+            --theme-modal: #333;
+            --theme-stars: rgba(255, 255, 255, 0.8);
+            --theme-card: rgba(40, 40, 40, 0.7);
+            --theme-shadow: rgba(0, 0, 0, 0.3);
+            --theme-border: rgba(255, 255, 255, 0.1);
+            --theme-success: #4CAF50;
+            --theme-warning: #FF9800;
+            --theme-error: #F44336;
         }
         
         body {
@@ -58,7 +110,7 @@
             padding: 20px;
             overflow: auto;
             position: relative;
-            transition: background-color 0.5s ease;
+            transition: background-color var(--transition-speed) ease;
         }
         
         .stars {
@@ -87,74 +139,103 @@
         }
         
         .container {
-            background: rgba(26, 26, 26, 0.8);
+            background: var(--theme-card);
             backdrop-filter: blur(var(--blur-intensity));
             -webkit-backdrop-filter: blur(var(--blur-intensity));
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            border: 1px solid var(--theme-border);
             padding: 25px;
-            border-radius: 20px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            border-radius: var(--border-radius);
+            box-shadow: 0 8px 32px var(--theme-shadow);
             width: 100%;
             max-width: 500px;
             text-align: center;
             z-index: 1;
             margin: 20px 0;
-            transition: all 0.3s ease;
-        }
-        
-        .theme-light .container {
-            background: rgba(240, 240, 240, 0.9);
-            border: 1px solid rgba(0, 0, 0, 0.1);
-        }
-        
-        .theme-purple .container {
-            background: rgba(42, 10, 53, 0.9);
-        }
-        
-        .theme-green .container {
-            background: rgba(10, 46, 10, 0.9);
+            transition: all var(--transition-speed) ease;
         }
         
         h2 {
             color: var(--theme-primary);
             margin-bottom: 20px;
             font-weight: 600;
-            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            text-shadow: 0 2px 4px var(--theme-shadow);
         }
         
         input, select, button {
             width: 100%;
             margin: 10px 0;
             padding: 12px;
-            border-radius: 10px;
+            border-radius: var(--border-radius);
             border: none;
             font-size: 16px;
-            transition: all 0.3s ease;
+            transition: all var(--transition-speed) ease;
         }
         
         input, select {
             background: var(--theme-input);
             color: var(--theme-text);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            border: 1px solid var(--theme-border);
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
         }
         
-        .theme-light input, 
-        .theme-light select {
-            border: 1px solid rgba(0, 0, 0, 0.1);
+        /* إزالة الصناديق الزرقاء للتركيز */
+        input:focus, select:focus, textarea:focus {
+            box-shadow: 0 0 0 2px var(--theme-primary);
+            border-color: transparent;
+        }
+        
+        /* إزالة المظهر الافتراضي للمتصفح للعناصر */
+        input[type="color"] {
+            -webkit-appearance: none;
+            border: none;
+            width: 100%;
+            height: 40px;
+            padding: 0;
+            cursor: pointer;
+        }
+        
+        input[type="color"]::-webkit-color-swatch-wrapper {
+            padding: 0;
+        }
+        
+        input[type="color"]::-webkit-color-swatch {
+            border: none;
+            border-radius: 8px;
         }
         
         button {
-            background-color: var(--theme-primary);
+            background: linear-gradient(135deg, var(--theme-primary), var(--theme-secondary));
             color: #ffffff;
             cursor: pointer;
             font-weight: 600;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: all var(--transition-speed) ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            border: none;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        button::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(255,255,255,0.1), transparent);
+            opacity: 0;
+            transition: opacity 0.3s;
         }
         
         button:hover:not(:disabled) {
             transform: translateY(-2px);
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+        }
+        
+        button:hover:not(:disabled)::after {
+            opacity: 1;
         }
         
         button:active:not(:disabled) {
@@ -164,6 +245,7 @@
         button:disabled {
             opacity: 0.6;
             cursor: not-allowed;
+            background: var(--theme-input);
         }
         
         textarea {
@@ -174,17 +256,14 @@
             width: 100%;
             min-height: 150px;
             max-height: 50vh;
-            border-radius: 10px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: var(--border-radius);
+            border: 1px solid var(--theme-border);
             resize: vertical;
             font-size: 14px;
             overflow-y: auto;
             white-space: pre;
             word-wrap: break-word;
-        }
-        
-        .theme-light textarea {
-            border: 1px solid rgba(0, 0, 0, 0.1);
+            -webkit-appearance: none;
         }
         
         /* Modal Styles */
@@ -207,16 +286,12 @@
             -webkit-backdrop-filter: blur(var(--blur-intensity));
             margin: 5% auto;
             padding: 25px;
-            border-radius: 15px;
+            border-radius: var(--border-radius);
             width: 90%;
             max-width: 600px;
             position: relative;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
-        }
-        
-        .theme-light .modal-content {
-            border: 1px solid rgba(0, 0, 0, 0.1);
+            border: 1px solid var(--theme-border);
+            box-shadow: 0 10px 30px var(--theme-shadow);
         }
         
         .close {
@@ -227,7 +302,7 @@
             font-size: 28px;
             font-weight: bold;
             cursor: pointer;
-            transition: color 0.3s ease;
+            transition: color var(--transition-speed) ease;
         }
         
         .close:hover {
@@ -239,70 +314,62 @@
             to { opacity: 1; }
         }
         
-        /* Settings Button */
-        .settings-button {
+        /* Floating Action Buttons */
+        .fab {
             position: fixed;
-            top: 15px;
-            left: 15px;
-            background-color: rgba(0, 123, 255, 0.7);
+            background: linear-gradient(135deg, var(--theme-primary), var(--theme-secondary));
             color: white;
             border: none;
-            width: 40px;
-            height: 40px;
+            width: 50px;
+            height: 50px;
             border-radius: 50%;
             cursor: pointer;
             z-index: 1000;
             display: flex;
             justify-content: center;
             align-items: center;
-            transition: all 0.3s ease;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
-            backdrop-filter: blur(5px);
-            -webkit-backdrop-filter: blur(5px);
+            transition: all var(--transition-speed) ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
         }
         
-        .settings-button:hover {
-            background-color: rgba(0, 123, 255, 0.9);
-            transform: scale(1.1);
+        .fab:hover {
+            transform: scale(1.1) rotate(5deg);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
         }
         
-        .settings-button svg {
-            width: 22px;
-            height: 22px;
-            fill: currentColor;
-        }
-        
-        /* Fullscreen Button */
-        .fullscreen-button {
-            position: fixed;
-            top: 15px;
-            right: 15px;
-            background-color: rgba(0, 123, 255, 0.7);
-            color: white;
-            border: none;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            cursor: pointer;
-            z-index: 1000;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            transition: all 0.3s ease;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
-            backdrop-filter: blur(5px);
-            -webkit-backdrop-filter: blur(5px);
-        }
-        
-        .fullscreen-button:hover {
-            background-color: rgba(0, 123, 255, 0.9);
-            transform: scale(1.1);
-        }
-        
-        .fullscreen-button svg {
+        .fab svg {
             width: 24px;
             height: 24px;
             fill: currentColor;
+        }
+        
+        .fab.settings {
+            top: 20px;
+            left: 20px;
+        }
+        
+        .fab.theme-switcher {
+            top: 80px;
+            left: 20px;
+        }
+        
+        .fab.fullscreen {
+            top: 20px;
+            right: 20px;
+        }
+        
+        .fab.export {
+            bottom: 20px;
+            right: 20px;
+            background: linear-gradient(135deg, var(--theme-success), #45a049);
+        }
+        
+        .fab.clear {
+            bottom: 20px;
+            left: 20px;
+            background: linear-gradient(135deg, var(--theme-error), #d32f2f);
         }
         
         /* Notification */
@@ -316,12 +383,12 @@
             -webkit-backdrop-filter: blur(var(--blur-intensity));
             color: var(--theme-text);
             padding: 15px;
-            border-radius: 10px;
-            box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.3);
+            border-radius: var(--border-radius);
+            box-shadow: 0px 4px 15px var(--theme-shadow);
             display: none;
             z-index: 1000;
             text-align: center;
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            border: 1px solid var(--theme-border);
             animation: slideIn 0.3s ease, fadeOut 0.3s ease 2.5s forwards;
         }
         
@@ -350,20 +417,22 @@
             background-color: var(--theme-modal);
             backdrop-filter: blur(var(--blur-intensity));
             -webkit-backdrop-filter: blur(var(--blur-intensity));
-            border-radius: 15px;
+            border-radius: var(--border-radius);
             padding: 20px;
-            width: 280px;
+            width: 320px;
             z-index: 999;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 10px 30px var(--theme-shadow);
+            border: 1px solid var(--theme-border);
             display: none;
-            transition: all 0.3s ease;
+            transition: all var(--transition-speed) ease;
+            max-height: 80vh;
+            overflow-y: auto;
         }
         
         .settings-panel h3 {
             margin-top: 0;
             color: var(--theme-primary);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            border-bottom: 1px solid var(--theme-border);
             padding-bottom: 10px;
             margin-bottom: 15px;
         }
@@ -381,7 +450,7 @@
             cursor: pointer;
             text-align: center;
             border: 2px solid transparent;
-            transition: all 0.3s ease;
+            transition: all var(--transition-speed) ease;
             background-color: var(--theme-input);
         }
         
@@ -426,6 +495,219 @@
             border-radius: 50%;
             background: var(--theme-primary);
             cursor: pointer;
+            border: 2px solid var(--theme-border);
+            box-shadow: 0 2px 5px var(--theme-shadow);
+        }
+        
+        /* Color Picker Section */
+        .color-picker-section {
+            background: var(--theme-card);
+            padding: 15px;
+            border-radius: var(--border-radius);
+            margin: 15px 0;
+            border: 1px solid var(--theme-border);
+        }
+        
+        .color-picker-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-top: 10px;
+        }
+        
+        .color-picker-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .color-picker-label {
+            font-size: 12px;
+            margin-bottom: 5px;
+            color: var(--theme-text);
+        }
+        
+        .color-input {
+            width: 100%;
+            height: 40px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            padding: 0;
+        }
+        
+        .color-preview-box {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 15px;
+            padding: 10px;
+            border-radius: var(--border-radius);
+            background: var(--theme-input);
+            border: 1px solid var(--theme-border);
+        }
+        
+        .preview-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            flex: 1;
+        }
+        
+        .preview-color {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            margin-bottom: 5px;
+            border: 2px solid var(--theme-border);
+        }
+        
+        /* Enhanced Visual Effects */
+        .glow-effect {
+            animation: glow 2s infinite alternate;
+        }
+        
+        @keyframes glow {
+            from {
+                box-shadow: 0 0 5px var(--theme-primary);
+            }
+            to {
+                box-shadow: 0 0 20px var(--theme-primary);
+            }
+        }
+        
+        .pulse-effect {
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.05);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+        
+        .gradient-text {
+            background: linear-gradient(45deg, var(--theme-primary), var(--theme-accent));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            display: inline-block;
+        }
+        
+        /* Advanced Settings */
+        .advanced-settings {
+            margin-top: 20px;
+            padding-top: 15px;
+            border-top: 1px solid var(--theme-border);
+        }
+        
+        .toggle-switch {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 10px 0;
+        }
+        
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 50px;
+            height: 24px;
+        }
+        
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        
+        .slider-switch {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: var(--theme-input);
+            transition: .4s;
+            border-radius: 24px;
+            border: 1px solid var(--theme-border);
+        }
+        
+        .slider-switch:before {
+            position: absolute;
+            content: "";
+            height: 16px;
+            width: 16px;
+            left: 4px;
+            bottom: 3px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+        
+        input:checked + .slider-switch {
+            background-color: var(--theme-primary);
+        }
+        
+        input:checked + .slider-switch:before {
+            transform: translateX(26px);
+        }
+        
+        /* Badge System */
+        .badge {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: bold;
+            margin-left: 5px;
+            vertical-align: middle;
+        }
+        
+        .badge.new {
+            background: linear-gradient(135deg, var(--theme-accent), #ff4081);
+            color: white;
+        }
+        
+        .badge.feature {
+            background: linear-gradient(135deg, var(--theme-success), #45a049);
+            color: white;
+        }
+        
+        /* Character Cards */
+        .character-card {
+            background: var(--theme-card);
+            border: 1px solid var(--theme-border);
+            border-radius: var(--border-radius);
+            padding: 10px;
+            margin: 5px 0;
+            display: flex;
+            align-items: center;
+            transition: all var(--transition-speed) ease;
+        }
+        
+        .character-card:hover {
+            transform: translateX(5px);
+            border-color: var(--theme-primary);
+        }
+        
+        .character-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--theme-input);
+            margin-right: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: var(--theme-primary);
         }
         
         /* Responsive Adjustments */
@@ -458,6 +740,40 @@
             .theme-options {
                 grid-template-columns: 1fr;
             }
+            
+            .color-picker-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+            
+            .fab {
+                width: 45px;
+                height: 45px;
+            }
+            
+            .fab.settings {
+                top: 15px;
+                left: 15px;
+            }
+            
+            .fab.theme-switcher {
+                top: 70px;
+                left: 15px;
+            }
+            
+            .fab.fullscreen {
+                top: 15px;
+                right: 15px;
+            }
+            
+            .fab.export {
+                bottom: 15px;
+                right: 15px;
+            }
+            
+            .fab.clear {
+                bottom: 15px;
+                left: 15px;
+            }
         }
         
         /* Fullscreen specific styles */
@@ -474,13 +790,13 @@
         .developer-credit {
             margin-top: 20px;
             padding-top: 15px;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            border-top: 1px solid var(--theme-border);
             font-size: 14px;
             color: #aaa;
         }
         
         .theme-light .developer-credit {
-            border-top: 1px solid rgba(0, 0, 0, 0.1);
+            border-top: 1px solid var(--theme-border);
             color: #666;
         }
         
@@ -488,36 +804,341 @@
             color: var(--theme-primary);
             text-decoration: none;
         }
+        
+        /* Character Counter */
+        .character-counter {
+            text-align: right;
+            font-size: 12px;
+            color: var(--theme-text);
+            opacity: 0.7;
+            margin-top: 5px;
+        }
+        
+        /* Progress Bar */
+        .progress-container {
+            width: 100%;
+            height: 8px;
+            background-color: var(--theme-input);
+            border-radius: 4px;
+            margin: 15px 0;
+            overflow: hidden;
+        }
+        
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, var(--theme-primary), var(--theme-accent));
+            border-radius: 4px;
+            transition: width 0.3s ease;
+        }
+        
+        /* Tooltips */
+        .tooltip {
+            position: relative;
+            display: inline-block;
+        }
+        
+        .tooltip .tooltiptext {
+            visibility: hidden;
+            width: 200px;
+            background-color: var(--theme-modal);
+            color: var(--theme-text);
+            text-align: center;
+            border-radius: 6px;
+            padding: 10px;
+            position: absolute;
+            z-index: 1001;
+            bottom: 125%;
+            left: 50%;
+            margin-left: -100px;
+            opacity: 0;
+            transition: opacity 0.3s;
+            border: 1px solid var(--theme-border);
+            box-shadow: 0 4px 15px var(--theme-shadow);
+            backdrop-filter: blur(10px);
+            font-size: 12px;
+        }
+        
+        .tooltip:hover .tooltiptext {
+            visibility: visible;
+            opacity: 1;
+        }
+        
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: var(--theme-input);
+            border-radius: 4px;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(var(--theme-primary), var(--theme-secondary));
+            border-radius: 4px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(var(--theme-secondary), var(--theme-primary));
+        }
+        
+        /* Particle Effects */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            pointer-events: none;
+        }
+        
+        .particle {
+            position: absolute;
+            background: radial-gradient(circle, var(--theme-primary), transparent);
+            border-radius: 50%;
+            opacity: 0.3;
+        }
+        
+        /* Input Group */
+        .input-group {
+            position: relative;
+            margin: 15px 0;
+        }
+        
+        .input-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+            color: var(--theme-primary);
+        }
+        
+        .input-icon {
+            position: absolute;
+            right: 15px;
+            top: 40px;
+            color: var(--theme-primary);
+        }
+        
+        /* Success/Error States */
+        .success {
+            color: var(--theme-success);
+            border-color: var(--theme-success) !important;
+        }
+        
+        .error {
+            color: var(--theme-error);
+            border-color: var(--theme-error) !important;
+        }
+        
+        /* Loading Spinner */
+        .spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid var(--theme-input);
+            border-top-color: var(--theme-primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        /* Statistics Panel */
+        .stats-panel {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin: 15px 0;
+            text-align: center;
+        }
+        
+        .stat-item {
+            background: var(--theme-card);
+            padding: 10px;
+            border-radius: var(--border-radius);
+            border: 1px solid var(--theme-border);
+        }
+        
+        .stat-value {
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--theme-primary);
+        }
+        
+        .stat-label {
+            font-size: 12px;
+            color: var(--theme-text);
+            opacity: 0.7;
+        }
+        
+        /* Quick Actions */
+        .quick-actions {
+            display: flex;
+            justify-content: space-between;
+            margin: 15px 0;
+            gap: 10px;
+        }
+        
+        .quick-action-btn {
+            flex: 1;
+            padding: 10px;
+            background: var(--theme-card);
+            border: 1px solid var(--theme-border);
+            border-radius: var(--border-radius);
+            color: var(--theme-text);
+            cursor: pointer;
+            transition: all var(--transition-speed) ease;
+        }
+        
+        .quick-action-btn:hover {
+            background: var(--theme-input);
+            border-color: var(--theme-primary);
+        }
+        
+        /* Timeline */
+        .timeline {
+            position: relative;
+            margin: 20px 0;
+        }
+        
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 10px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: var(--theme-primary);
+        }
+        
+        .timeline-item {
+            position: relative;
+            padding-left: 30px;
+            margin-bottom: 15px;
+        }
+        
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: 5px;
+            top: 5px;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: var(--theme-primary);
+        }
     </style>
 </head>
 <body>
-    <!-- Settings Button -->
-    <button class="settings-button" id="settingsButton" title="Settings">
+    <!-- Floating Action Buttons -->
+    <button class="fab settings" id="settingsButton" title="Settings">
         <svg viewBox="0 0 24 24">
             <path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/>
         </svg>
     </button>
     
+    <button class="fab theme-switcher" id="themeSwitcherButton" title="Quick Theme Switcher">
+        <svg viewBox="0 0 24 24">
+            <path d="M12 3c-4.97 0-9 4.03-9 9s4.03 9 9 9 9-4.03 9-9c0-.46-.04-.92-.1-1.36-.98 1.37-2.58 2.26-4.4 2.26-2.98 0-5.4-2.42-5.4-5.4 0-1.81.89-3.42 2.26-4.4-.44-.06-.9-.1-1.36-.1z"/>
+        </svg>
+    </button>
+
+    <button class="fab fullscreen" id="fullscreenButton" title="Toggle Fullscreen">
+        <svg viewBox="0 0 24 24">
+            <path d="M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z"/>
+        </svg>
+    </button>
+
+    <button class="fab export" id="exportButton" title="Export All">
+        <svg viewBox="0 0 24 24">
+            <path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/>
+        </svg>
+    </button>
+
+    <button class="fab clear" id="clearButton" title="Clear All">
+        <svg viewBox="0 0 24 24">
+            <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
+        </svg>
+    </button>
+
     <!-- Settings Panel -->
     <div class="settings-panel" id="settingsPanel">
-        <h3>Theme Settings</h3>
+        <h3>Theme Settings <span class="badge new">NEW</span></h3>
         
         <div class="theme-options">
             <div class="theme-option active" data-theme="default">
-                <div class="color-preview" style="background: linear-gradient(to right, #1a1a1a, #007BFF);"></div>
+                <div class="color-preview" style="background: linear-gradient(135deg, #1a1a1a, #007BFF);"></div>
                 Default
             </div>
             <div class="theme-option" data-theme="light">
-                <div class="color-preview" style="background: linear-gradient(to right, #f0f0f0, #4A6FA5);"></div>
+                <div class="color-preview" style="background: linear-gradient(135deg, #f0f0f0, #4A6FA5);"></div>
                 Light
             </div>
             <div class="theme-option" data-theme="purple">
-                <div class="color-preview" style="background: linear-gradient(to right, #2a0a35, #9C27B0);"></div>
+                <div class="color-preview" style="background: linear-gradient(135deg, #2a0a35, #9C27B0);"></div>
                 Purple
             </div>
             <div class="theme-option" data-theme="green">
-                <div class="color-preview" style="background: linear-gradient(to right, #0a2e0a, #4CAF50);"></div>
+                <div class="color-preview" style="background: linear-gradient(135deg, #0a2e0a, #4CAF50);"></div>
                 Green
+            </div>
+            <div class="theme-option" data-theme="custom" id="customThemeOption">
+                <div class="color-preview" id="customThemePreview"></div>
+                Custom
+            </div>
+        </div>
+        
+        <div class="color-picker-section" id="colorPickerSection" style="display: none;">
+            <h4>Custom Theme Colors <span class="badge feature">PRO</span></h4>
+            <div class="color-picker-grid">
+                <div class="color-picker-item">
+                    <span class="color-picker-label">Primary</span>
+                    <input type="color" id="colorPrimary" class="color-input" value="#007BFF">
+                </div>
+                <div class="color-picker-item">
+                    <span class="color-picker-label">Secondary</span>
+                    <input type="color" id="colorSecondary" class="color-input" value="#0056b3">
+                </div>
+                <div class="color-picker-item">
+                    <span class="color-picker-label">Accent</span>
+                    <input type="color" id="colorAccent" class="color-input" value="#ff6b6b">
+                </div>
+                <div class="color-picker-item">
+                    <span class="color-picker-label">Background</span>
+                    <input type="color" id="colorBg" class="color-input" value="#1a1a1a">
+                </div>
+                <div class="color-picker-item">
+                    <span class="color-picker-label">Text</span>
+                    <input type="color" id="colorText" class="color-input" value="#ffffff">
+                </div>
+                <div class="color-picker-item">
+                    <span class="color-picker-label">Input</span>
+                    <input type="color" id="colorInput" class="color-input" value="#333333">
+                </div>
+            </div>
+            
+            <div class="color-preview-box">
+                <div class="preview-item">
+                    <div class="preview-color" id="previewPrimary"></div>
+                    <small>Primary</small>
+                </div>
+                <div class="preview-item">
+                    <div class="preview-color" id="previewSecondary"></div>
+                    <small>Secondary</small>
+                </div>
+                <div class="preview-item">
+                    <div class="preview-color" id="previewAccent"></div>
+                    <small>Accent</small>
+                </div>
+            </div>
+            
+            <div class="quick-actions" style="margin-top: 10px;">
+                <button onclick="applyCustomTheme()">Apply</button>
+                <button onclick="saveCustomTheme()" style="background: linear-gradient(135deg, var(--theme-success), #45a049);">Save</button>
+                <button onclick="randomTheme()" style="background: linear-gradient(135deg, var(--theme-accent), #ff4081);">Random</button>
             </div>
         </div>
         
@@ -526,35 +1147,106 @@
             <input type="range" min="0" max="20" value="10" class="slider" id="blurSlider">
         </div>
         
-        <button onclick="closeSettings()">Close Settings</button>
+        <div class="slider-container">
+            <label for="borderRadiusSlider">Border Radius: <span id="borderRadiusValue">15px</span></label>
+            <input type="range" min="5" max="25" value="15" class="slider" id="borderRadiusSlider">
+        </div>
+        
+        <div class="advanced-settings">
+            <h4>Advanced Settings <span class="badge new">ENHANCED</span></h4>
+            
+            <div class="toggle-switch">
+                <span>Enable Glow Effects</span>
+                <label class="switch">
+                    <input type="checkbox" id="glowEffectsToggle" checked>
+                    <span class="slider-switch"></span>
+                </label>
+            </div>
+            
+            <div class="toggle-switch">
+                <span>Enable Animations</span>
+                <label class="switch">
+                    <input type="checkbox" id="animationsToggle" checked>
+                    <span class="slider-switch"></span>
+                </label>
+            </div>
+            
+            <div class="toggle-switch">
+                <span>Show Character Counter</span>
+                <label class="switch">
+                    <input type="checkbox" id="counterToggle" checked>
+                    <span class="slider-switch"></span>
+                </label>
+            </div>
+            
+            <div class="toggle-switch">
+                <span>Enable Particles</span>
+                <label class="switch">
+                    <input type="checkbox" id="particlesToggle">
+                    <span class="slider-switch"></span>
+                </label>
+            </div>
+            
+            <div class="toggle-switch">
+                <span>Show Statistics</span>
+                <label class="switch">
+                    <input type="checkbox" id="statsToggle" checked>
+                    <span class="slider-switch"></span>
+                </label>
+            </div>
+        </div>
+        
+        <div class="stats-panel" id="statsPanel">
+            <div class="stat-item">
+                <div class="stat-value" id="statDialogues">0</div>
+                <div class="stat-label">Dialogues</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value" id="statCharacters">0</div>
+                <div class="stat-label">Characters</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value" id="statWords">0</div>
+                <div class="stat-label">Words</div>
+            </div>
+        </div>
+        
+        <button onclick="resetToDefaults()" style="background: linear-gradient(135deg, var(--theme-error), #d32f2f); margin-top: 15px;">Reset to Defaults</button>
+        <button onclick="closeSettings()" style="margin-top: 10px;">Close Settings</button>
     </div>
 
-    <!-- Fullscreen Button -->
-    <button class="fullscreen-button" id="fullscreenButton" title="Toggle Fullscreen">
-        <svg viewBox="0 0 24 24">
-            <path d="M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z"/>
-        </svg>
-    </button>
-
     <div class="stars" id="starsContainer"></div>
+    <div class="particles" id="particlesContainer"></div>
     
     <div class="container">
-        <h2>Dialogue Maker</h2>
+        <h2 class="gradient-text">Dialogue Maker <span class="badge new">v2.5</span></h2>
         
-        <input type="text" id="header" placeholder="Enter Header" />
+        <div class="input-group">
+            <label for="header">Scene Header</label>
+            <div class="tooltip">
+                <input type="text" id="header" placeholder="Enter Header (e.g., INTRO, BOSS_BATTLE)" />
+                <span class="tooltiptext">Enter a name for your dialogue scene. Use uppercase and underscores for best results.</span>
+            </div>
+            <span class="input-icon">🎬</span>
+        </div>
         
-        <div>
-            <label for="action">Choose an Action:</label>
+        <div class="progress-container">
+            <div class="progress-bar" id="dialogueProgress" style="width: 0%"></div>
+        </div>
+        
+        <div class="input-group">
+            <label for="action">Dialogue Action</label>
             <select id="action" onchange="toggleDialogueVisibility()">
                 <option value="NPC_ENTER_SAY">NPC Enter + Say</option>
                 <option value="NPC_ENTER">NPC Enter</option>
                 <option value="SAY">Say</option>
                 <option value="NPC_EXIT">NPC Exit</option>
             </select>
+            <span class="input-icon">🎭</span>
         </div>
         
-        <div>
-            <label for="character">Choose a Character:</label>
+        <div class="input-group">
+            <label for="character">Character Selection</label>
             <select id="character">
                 <option value="crazydave">Crazy Dave</option>
                 <option value="crazydaveicon">Crazy Dave Icon</option>
@@ -572,25 +1264,35 @@
                 <option value="browncoatzombie">Browncoat Zombie</option>
                 <option value="nightcap">Nightcap</option>
             </select>
+            <span class="input-icon">👤</span>
         </div>
 
         <div id="dialogueDiv" style="display: none;">
-            <label for="dialogue">Enter Dialogue:</label>
-            <input type="text" id="dialogue" placeholder="Enter Dialogue" />
+            <div class="input-group">
+                <label for="dialogue">Dialogue Text</label>
+                <input type="text" id="dialogue" placeholder="Enter Dialogue (max 200 characters)" maxlength="200" />
+                <span class="input-icon">💬</span>
+                <div class="character-counter" id="dialogueCounter">0/200</div>
+            </div>
         </div>
 
-        <button onclick="generateDialogue()">Generate</button>
+        <button onclick="generateDialogue()" id="generateButton" class="pulse-effect">✨ Generate Dialogue</button>
         
         <div class="button-group">
-            <button onclick="showModal('codeModal')">Show Code</button>
-            <button id="likeButton" onclick="sendLike()">Like</button>
-            <button id="sendToDeveloperButton" onclick="sendToDeveloper()">Send to Developer</button>
-            <button id="reportButton" onclick="showModal('reportModal')">Report Issue</button>
+            <button onclick="showModal('codeModal')" class="glow-effect">📋 Show Code</button>
+            <button id="likeButton" onclick="sendLike()">❤️ Like</button>
+            <button id="sendToDeveloperButton" onclick="sendToDeveloper()">📤 Send to Developer</button>
+            <button id="reportButton" onclick="showModal('reportModal')">🚨 Report Issue</button>
+        </div>
+        
+        <div class="quick-actions">
+            <button class="quick-action-btn" onclick="duplicateLastDialogue()">📝 Duplicate Last</button>
+            <button class="quick-action-btn" onclick="showPreview()">👁️ Preview</button>
+            <button class="quick-action-btn" onclick="showModal('historyModal')">📜 History</button>
         </div>
         
         <div class="developer-credit">
-            Developed by: [LuvTime]<br>
-            All Rights Reserved © 2026
+            Developed by: <strong>[LuvTime]</strong> - All Rights Reserved © 2026
         </div>
 
         <!-- Code Modal -->
@@ -600,8 +1302,9 @@
                 <h3>Generated Dialogue Code</h3>
                 <textarea id="dialogueOutput" readonly></textarea>
                 <div class="button-group">
-                    <button id="copyButton" onclick="copyCode()">Copy Code</button>
-                    <button id="downloadButton" onclick="downloadCode()">Download</button>
+                    <button id="copyButton" onclick="copyCode()">📋 Copy Code</button>
+                    <button id="downloadButton" onclick="downloadCode()">💾 Download</button>
+                    <button onclick="shareCode()" style="grid-column: span 2;">📤 Share Code</button>
                 </div>
             </div>
         </div>
@@ -617,45 +1320,79 @@
             </div>
         </div>
 
+        <!-- Preview Modal -->
+        <div id="previewModal" class="modal">
+            <div class="modal-content">
+                <span class="close" onclick="closeModal('previewModal')">&times;</span>
+                <h3>Dialogue Preview</h3>
+                <div id="previewContent" style="text-align: left; padding: 20px; background: var(--theme-input); border-radius: var(--border-radius);">
+                    <!-- Preview will be inserted here -->
+                </div>
+                <button onclick="closeModal('previewModal')" style="margin-top: 15px;">Close Preview</button>
+            </div>
+        </div>
+
+        <!-- History Modal -->
+        <div id="historyModal" class="modal">
+            <div class="modal-content">
+                <span class="close" onclick="closeModal('historyModal')">&times;</span>
+                <h3>Dialogue History</h3>
+                <div id="historyContent" style="max-height: 300px; overflow-y: auto;">
+                    <!-- History will be inserted here -->
+                </div>
+                <button onclick="clearHistory()" style="margin-top: 15px; background: linear-gradient(135deg, var(--theme-error), #d32f2f);">Clear History</button>
+            </div>
+        </div>
+
         <!-- Welcome Modal -->
         <div id="welcomeModal" class="modal">
             <div class="modal-content">
                 <span class="close" onclick="closeModal('welcomeModal')">&times;</span>
-                <h3>Welcome to Dialogue Maker v2.3!</h3>
+                <h3>Welcome to Dialogue Maker v2.5! 🎉</h3>
                 <div style="text-align: left; padding: 10px;">
-                    <p><strong>New Features:</strong></p>
+                    <p><strong>🎨 New Features:</strong></p>
                     <ul>
-                        <li>Glassmorphism UI with blur effects</li>
-                        <li>Multiple theme options (Default, Light, Purple, Green)</li>
-                        <li>Adjustable blur intensity</li>
-                        <li>Enhanced visual effects</li>
+                        <li><strong>Floating Action Buttons</strong> - Easy access to all tools</li>
+                        <li><strong>Enhanced Color Picker</strong> - With gradient previews</li>
+                        <li><strong>Statistics Panel</strong> - Track your dialogue metrics</li>
+                        <li><strong>Quick Actions</strong> - One-click common operations</li>
+                        <li><strong>Improved UI</strong> - No more blue boxes, cleaner design</li>
+                        <li><strong>Preview Mode</strong> - See your dialogues in action</li>
+                        <li><strong>History System</strong> - Never lose your work</li>
                     </ul>
-                    <p><strong>Key Features:</strong></p>
+                    <p><strong>⚡ Quick Tips:</strong></p>
                     <ul>
-                        <li>Create multi-character dialogues easily</li>
-                        <li>Support for various Plants vs. Zombies characters</li>
-                        <li>Copy or download generated code</li>
-                        <li>User-friendly interface</li>
-                        <li>Automatic code formatting</li>
+                        <li>Use the floating buttons for quick actions</li>
+                        <li>Try the random theme generator</li>
+                        <li>Check statistics to track your progress</li>
+                        <li>Use preview mode to visualize dialogues</li>
                     </ul>
-                    <p><strong>Important Notes:</strong></p>
-                    <ul>
-                        <li>You must credit the original creator when using or modifying this tool</li>
-                        <li>Feel free to modify the code but respect the original creator's rights</li>
-                        <li>This tool is free for personal use</li>
-                    </ul>
+                    <div class="stats-panel" style="margin: 20px 0;">
+                        <div class="stat-item">
+                            <div class="stat-value">15+</div>
+                            <div class="stat-label">Characters</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value">4</div>
+                            <div class="stat-label">Actions</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value">∞</div>
+                            <div class="stat-label">Possibilities</div>
+                        </div>
+                    </div>
                     <p style="text-align: center; margin-top: 20px; font-weight: bold;">
-                        Developed by: [LuvTime]<br>
+                        Developed by: <strong>[LuvTime]</strong><br>
                         All Rights Reserved © 2026
                     </p>
                 </div>
-                <button onclick="closeModal('welcomeModal')">Get Started</button>
+                <button onclick="closeModal('welcomeModal')" class="pulse-effect">🚀 Get Started</button>
             </div>
         </div>
     </div>
 
     <div id="androidNotification">
-        Loading complete! Everything is ready
+        Dialogue Maker v2.5 Ready! ✨
     </div>
     
     <script>
@@ -663,15 +1400,27 @@
         let dialogues = [];
         let usedCharacters = [];
         let currentSendCount = 0;
+        let customThemeColors = {};
+        let particlesEnabled = false;
+        let dialogueHistory = [];
         
         // DOM Elements
         const sendToDeveloperButton = document.getElementById("sendToDeveloperButton");
         const likeButton = document.getElementById("likeButton");
         const fullscreenButton = document.getElementById("fullscreenButton");
         const settingsButton = document.getElementById("settingsButton");
+        const themeSwitcherButton = document.getElementById("themeSwitcherButton");
+        const exportButton = document.getElementById("exportButton");
+        const clearButton = document.getElementById("clearButton");
         const settingsPanel = document.getElementById("settingsPanel");
         const blurSlider = document.getElementById("blurSlider");
         const blurValue = document.getElementById("blurValue");
+        const borderRadiusSlider = document.getElementById("borderRadiusSlider");
+        const borderRadiusValue = document.getElementById("borderRadiusValue");
+        const colorPickerSection = document.getElementById("colorPickerSection");
+        const customThemeOption = document.getElementById("customThemeOption");
+        const customThemePreview = document.getElementById("customThemePreview");
+        const statsPanel = document.getElementById("statsPanel");
         
         // Initialize the app
         function initApp() {
@@ -692,7 +1441,7 @@
             const hasLiked = localStorage.getItem("hasLiked") === "true";
             if (hasLiked) {
                 likeButton.disabled = true;
-                likeButton.textContent = "Liked!";
+                likeButton.textContent = "❤️ Liked!";
             }
             
             // Load saved theme
@@ -703,6 +1452,28 @@
             const savedBlur = localStorage.getItem("blurIntensity") || "10";
             blurSlider.value = savedBlur;
             updateBlur(parseInt(savedBlur));
+            
+            // Load saved border radius
+            const savedBorderRadius = localStorage.getItem("borderRadius") || "15";
+            borderRadiusSlider.value = savedBorderRadius;
+            updateBorderRadius(parseInt(savedBorderRadius));
+            
+            // Load saved custom theme
+            const savedCustomTheme = localStorage.getItem("customThemeColors");
+            if (savedCustomTheme) {
+                customThemeColors = JSON.parse(savedCustomTheme);
+                updateColorPreview();
+                updateCustomColorInputs();
+            }
+            
+            // Load dialogue history
+            const savedHistory = localStorage.getItem("dialogueHistory");
+            if (savedHistory) {
+                dialogueHistory = JSON.parse(savedHistory);
+            }
+            
+            // Load advanced settings
+            loadAdvancedSettings();
             
             // Check if this is first visit
             const hasVisited = localStorage.getItem("hasVisited");
@@ -716,13 +1487,20 @@
             // Update UI
             updateSendButtonState();
             createStars();
-            showAndroidNotification("Dialogue Maker v2.3 loaded with new themes!");
+            showAndroidNotification("Dialogue Maker v2.5 loaded! ✨");
             
             // Set up initial visibility
             toggleDialogueVisibility();
             
             // Set up event listeners
             setupEventListeners();
+            
+            // Update progress bar and statistics
+            updateProgressBar();
+            updateStatistics();
+            
+            // Add to history
+            addToHistory("App Started", "Application initialized successfully");
         }
         
         // Set up event listeners
@@ -732,6 +1510,7 @@
                 option.addEventListener('click', function() {
                     const theme = this.getAttribute('data-theme');
                     setTheme(theme);
+                    addToHistory("Theme Changed", `Changed to ${theme} theme`);
                 });
             });
             
@@ -740,17 +1519,86 @@
                 updateBlur(parseInt(this.value));
             });
             
+            // Border radius slider
+            borderRadiusSlider.addEventListener('input', function() {
+                updateBorderRadius(parseInt(this.value));
+            });
+            
             // Settings button
             settingsButton.addEventListener('click', toggleSettings);
+            
+            // Theme switcher button
+            themeSwitcherButton.addEventListener('click', toggleThemeSwitcher);
+            
+            // Export button
+            exportButton.addEventListener('click', exportAll);
+            
+            // Clear button
+            clearButton.addEventListener('click', clearAllDialogues);
+            
+            // Color picker inputs
+            const colorInputs = ['colorPrimary', 'colorSecondary', 'colorAccent', 'colorBg', 'colorText', 'colorInput'];
+            colorInputs.forEach(id => {
+                document.getElementById(id).addEventListener('input', updateColorPreview);
+            });
+            
+            // Dialogue counter
+            document.getElementById('dialogue').addEventListener('input', updateDialogueCounter);
             
             // Close settings when clicking outside
             document.addEventListener('click', function(event) {
                 if (!settingsPanel.contains(event.target) && 
                     !settingsButton.contains(event.target) && 
+                    !themeSwitcherButton.contains(event.target) &&
+                    !exportButton.contains(event.target) &&
+                    !clearButton.contains(event.target) &&
                     settingsPanel.style.display === 'block') {
                     closeSettings();
                 }
             });
+            
+            // Advanced settings toggles
+            document.getElementById('glowEffectsToggle').addEventListener('change', toggleGlowEffects);
+            document.getElementById('animationsToggle').addEventListener('change', toggleAnimations);
+            document.getElementById('counterToggle').addEventListener('change', toggleCharacterCounter);
+            document.getElementById('particlesToggle').addEventListener('change', toggleParticles);
+            document.getElementById('statsToggle').addEventListener('change', toggleStatistics);
+            
+            // Keyboard shortcuts
+            document.addEventListener('keydown', handleKeyboardShortcuts);
+        }
+        
+        // Handle keyboard shortcuts
+        function handleKeyboardShortcuts(e) {
+            // Ctrl+Enter to generate dialogue
+            if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+                e.preventDefault();
+                generateDialogue();
+            }
+            
+            // Ctrl+S to show settings
+            if ((e.ctrlKey || e.metaKey) && e.key === 's') {
+                e.preventDefault();
+                toggleSettings();
+            }
+            
+            // Ctrl+D to duplicate last
+            if ((e.ctrlKey || e.metaKey) && e.key === 'd') {
+                e.preventDefault();
+                duplicateLastDialogue();
+            }
+            
+            // Ctrl+P to preview
+            if ((e.ctrlKey || e.metaKey) && e.key === 'p') {
+                e.preventDefault();
+                showPreview();
+            }
+            
+            // Ctrl+E to export
+            if ((e.ctrlKey || e.metaKey) && e.key === 'e') {
+                e.preventDefault();
+                exportAll();
+            }
         }
         
         // Update send button state based on daily limit
@@ -780,6 +1628,37 @@
                 star.style.animationDuration = `${Math.random() * 2 + 1}s`;
                 star.style.animationDelay = `${Math.random() * 2}s`;
                 starsContainer.appendChild(star);
+            }
+        }
+        
+        // Create particle effects
+        function createParticles() {
+            if (!particlesEnabled) return;
+            
+            const particlesContainer = document.getElementById("particlesContainer");
+            const particleCount = 30;
+            
+            // Clear existing particles
+            particlesContainer.innerHTML = '';
+            
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement("div");
+                particle.className = "particle";
+                
+                // Random size
+                const size = Math.random() * 20 + 5;
+                particle.style.width = `${size}px`;
+                particle.style.height = `${size}px`;
+                
+                // Random position
+                particle.style.left = `${Math.random() * 100}%`;
+                particle.style.top = `${Math.random() * 100}%`;
+                
+                // Random animation
+                const duration = Math.random() * 20 + 10;
+                particle.style.animation = `float ${duration}s infinite ease-in-out`;
+                
+                particlesContainer.appendChild(particle);
             }
         }
         
@@ -852,7 +1731,37 @@
             dialogues.push(newDialogue);
             updateOutput();
             document.getElementById("dialogue").value = "";
-            showAndroidNotification("Dialogue generated successfully!");
+            updateDialogueCounter();
+            updateProgressBar();
+            updateStatistics();
+            showAndroidNotification("✨ Dialogue generated successfully!");
+            
+            // Add to history
+            addToHistory("Dialogue Generated", `${character}: ${dialogue.substring(0, 30)}...`);
+            
+            // Add visual feedback
+            const generateButton = document.getElementById("generateButton");
+            generateButton.classList.add("pulse-effect");
+            setTimeout(() => {
+                generateButton.classList.remove("pulse-effect");
+            }, 1000);
+        }
+        
+        // Duplicate last dialogue
+        function duplicateLastDialogue() {
+            if (dialogues.length === 0) {
+                showAndroidNotification("No dialogues to duplicate!");
+                return;
+            }
+            
+            const lastDialogue = dialogues[dialogues.length - 1];
+            dialogues.push(lastDialogue);
+            updateOutput();
+            updateProgressBar();
+            updateStatistics();
+            showAndroidNotification("📝 Last dialogue duplicated!");
+            
+            addToHistory("Dialogue Duplicated", "Last dialogue was duplicated");
         }
         
         // Update output textarea
@@ -865,17 +1774,115 @@
             return usedCharacters.includes(character);
         }
         
+        // Update dialogue counter
+        function updateDialogueCounter() {
+            const dialogueInput = document.getElementById("dialogue");
+            const counter = document.getElementById("dialogueCounter");
+            const length = dialogueInput.value.length;
+            counter.textContent = `${length}/200`;
+            
+            // Change color if near limit
+            if (length > 180) {
+                counter.style.color = "var(--theme-accent)";
+            } else {
+                counter.style.color = "var(--theme-text)";
+            }
+        }
+        
+        // Update progress bar
+        function updateProgressBar() {
+            const progressBar = document.getElementById("dialogueProgress");
+            const progress = Math.min((dialogues.length / 10) * 100, 100);
+            progressBar.style.width = `${progress}%`;
+            
+            // Change gradient based on progress
+            if (progress > 80) {
+                progressBar.style.background = "linear-gradient(90deg, var(--theme-accent), #ff4081)";
+            } else {
+                progressBar.style.background = "linear-gradient(90deg, var(--theme-primary), var(--theme-secondary))";
+            }
+        }
+        
+        // Update statistics
+        function updateStatistics() {
+            const totalDialogues = dialogues.length;
+            const totalCharacters = usedCharacters.length;
+            const totalWords = dialogues.reduce((acc, dialogue) => {
+                const words = dialogue.split('"')[1]?.split(/\s+/) || [];
+                return acc + words.length;
+            }, 0);
+            
+            document.getElementById('statDialogues').textContent = totalDialogues;
+            document.getElementById('statCharacters').textContent = totalCharacters;
+            document.getElementById('statWords').textContent = totalWords;
+        }
+        
+        // Add to history
+        function addToHistory(action, details) {
+            const historyEntry = {
+                timestamp: new Date().toLocaleTimeString(),
+                date: new Date().toLocaleDateString(),
+                action: action,
+                details: details
+            };
+            
+            dialogueHistory.unshift(historyEntry);
+            if (dialogueHistory.length > 50) {
+                dialogueHistory.pop();
+            }
+            
+            localStorage.setItem("dialogueHistory", JSON.stringify(dialogueHistory));
+        }
+        
+        // Show history
+        function showHistory() {
+            const historyContent = document.getElementById('historyContent');
+            historyContent.innerHTML = '';
+            
+            if (dialogueHistory.length === 0) {
+                historyContent.innerHTML = '<p style="text-align: center; color: var(--theme-text); opacity: 0.7;">No history yet</p>';
+                return;
+            }
+            
+            dialogueHistory.forEach(entry => {
+                const entryElement = document.createElement('div');
+                entryElement.className = 'character-card';
+                entryElement.innerHTML = `
+                    <div class="character-icon">${entry.action.charAt(0)}</div>
+                    <div style="flex: 1;">
+                        <strong>${entry.action}</strong>
+                        <div style="font-size: 12px; opacity: 0.7;">${entry.details}</div>
+                        <div style="font-size: 10px; opacity: 0.5;">${entry.date} ${entry.timestamp}</div>
+                    </div>
+                `;
+                historyContent.appendChild(entryElement);
+            });
+        }
+        
+        // Clear history
+        function clearHistory() {
+            if (confirm("Are you sure you want to clear all history?")) {
+                dialogueHistory = [];
+                localStorage.removeItem("dialogueHistory");
+                showHistory();
+                showAndroidNotification("History cleared!");
+                addToHistory("History Cleared", "All history entries removed");
+            }
+        }
+        
         // Modal functions
         function showModal(modalId) {
-            document.getElementById(modalId).style.display = "block";
+            document.getElementById(modalId).style.display = 'block';
             
-            if (modalId === "codeModal") {
-                document.getElementById("dialogueOutput").value = dialogues.join("\n");
+            if (modalId === 'codeModal') {
+                document.getElementById('dialogueOutput').value = dialogues.join('\n');
+            } else if (modalId === 'historyModal') {
+                showHistory();
             }
         }
         
         function closeModal(modalId) {
-            document.getElementById(modalId).style.display = "none";
+            document.getElementById(modalId).style.display = 'none';
         }
         
         function showActionModal(message) {
@@ -884,18 +1891,19 @@
         
         // Copy code to clipboard
         function copyCode() {
-            const codeText = document.getElementById("dialogueOutput");
+            const codeText = document.getElementById('dialogueOutput');
             codeText.select();
-            document.execCommand("copy");
-            showAndroidNotification("Code copied to clipboard!");
-            closeModal("codeModal");
+            document.execCommand('copy');
+            showAndroidNotification('📋 Code copied to clipboard!');
+            closeModal('codeModal');
+            addToHistory('Code Copied', 'Dialogue code copied to clipboard');
         }
         
         // Download code as file
         function downloadCode() {
-            const text = document.getElementById("dialogueOutput").value;
-            const header = document.getElementById("header").value.trim();
-            let fileName = header ? `${header.replace(/\s+/g, "_").replace(/[^\w\-]/g, "")}.dia` : "dialogue_code.dia";
+            const text = document.getElementById('dialogueOutput').value;
+            const header = document.getElementById('header').value.trim();
+            let fileName = header ? `${header.replace(/\s+/g, '_').replace(/[^\w\-]/g, '')}.dia` : 'dialogue_code.dia';
             
             const blob = new Blob([text], { type: 'text/plain' });
             const url = URL.createObjectURL(blob);
@@ -907,25 +1915,129 @@
             document.body.removeChild(a);
             URL.revokeObjectURL(url);
             
-            showAndroidNotification("File downloaded successfully!");
-            closeModal("codeModal");
+            showAndroidNotification('💾 File downloaded successfully!');
+            closeModal('codeModal');
+            addToHistory('File Downloaded', `Downloaded as ${fileName}`);
+        }
+        
+        // Export all
+        function exportAll() {
+            if (dialogues.length === 0) {
+                showAndroidNotification('No dialogues to export!');
+                return;
+            }
+            
+            const text = dialogues.join('\n');
+            const header = document.getElementById('header').value.trim();
+            let fileName = header ? `${header.replace(/\s+/g, '_').replace(/[^\w\-]/g, '')}_full.dia` : 'all_dialogues.dia';
+            
+            const blob = new Blob([text], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = fileName;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            
+            showAndroidNotification('📤 All dialogues exported!');
+            addToHistory('All Exported', 'Exported all dialogues to file');
+        }
+        
+        // Clear all dialogues
+        function clearAllDialogues() {
+            if (dialogues.length === 0) {
+                showAndroidNotification('No dialogues to clear!');
+                return;
+            }
+            
+            if (confirm('Are you sure you want to clear all dialogues?')) {
+                dialogues = [];
+                usedCharacters = [];
+                updateOutput();
+                updateProgressBar();
+                updateStatistics();
+                showAndroidNotification('🗑️ All dialogues cleared!');
+                addToHistory('All Cleared', 'All dialogues removed');
+            }
+        }
+        
+        // Share code
+        function shareCode() {
+            const text = document.getElementById('dialogueOutput').value;
+            if (navigator.share) {
+                navigator.share({
+                    title: 'Dialogue Code',
+                    text: text.substring(0, 100) + '...',
+                    url: window.location.href
+                }).then(() => {
+                    showAndroidNotification('Code shared successfully!');
+                    addToHistory('Code Shared', 'Dialogue code shared');
+                }).catch(error => {
+                    console.log('Error sharing:', error);
+                    copyCode();
+                });
+            } else {
+                copyCode();
+            }
+        }
+        
+        // Show preview
+        function showPreview() {
+            if (dialogues.length === 0) {
+                showAndroidNotification('No dialogues to preview!');
+                return;
+            }
+            
+            const previewContent = document.getElementById('previewContent');
+            previewContent.innerHTML = '';
+            
+            dialogues.forEach((dialogue, index) => {
+                const dialogueElement = document.createElement('div');
+                dialogueElement.className = 'character-card';
+                dialogueElement.style.margin = '10px 0';
+                
+                // Extract character and text
+                const match = dialogue.match(/{([^}]+):([^}]+)}(.*)"/);
+                if (match) {
+                    const action = match[1];
+                    const character = match[2];
+                    const text = match[3] || '';
+                    
+                    dialogueElement.innerHTML = `
+                        <div class="character-icon">${character.charAt(0).toUpperCase()}</div>
+                        <div style="flex: 1;">
+                            <div><strong>${character}</strong> <small style="opacity: 0.7;">(${action})</small></div>
+                            <div style="margin-top: 5px;">${text}</div>
+                            <div style="font-size: 10px; opacity: 0.5; margin-top: 5px;">Dialogue #${index + 1}</div>
+                        </div>
+                    `;
+                }
+                
+                previewContent.appendChild(dialogueElement);
+            });
+            
+            showModal('previewModal');
+            addToHistory('Preview Shown', 'Viewed dialogue preview');
         }
         
         // Send like to developer
         async function sendLike() {
             likeButton.disabled = true;
-            likeButton.textContent = "Liked!";
-            localStorage.setItem("hasLiked", "true");
+            likeButton.textContent = '❤️ Liked!';
+            localStorage.setItem('hasLiked', 'true');
             
             try {
-                const botToken = "7965814275:AAFPIFOAeur4YqmK-N-I5X_4XMQIywexbFs";
-                const chatId = "1867982596";
-                const url = `https://api.telegram.org/bot${botToken}/sendMessage?chat_id=${chatId}&text=${encodeURIComponent("New like received on Dialogue Maker!")}`;
+                const botToken = '7965814275:AAFPIFOAeur4YqmK-N-I5X_4XMQIywexbFs';
+                const chatId = '1867982596';
+                const url = `https://api.telegram.org/bot${botToken}/sendMessage?chat_id=${chatId}&text=${encodeURIComponent('New like received on Dialogue Maker!')}`;
                 
                 await fetch(url);
-                showAndroidNotification("Thank you for your support! ❤️");
+                showAndroidNotification('Thank you for your support! ❤️');
+                addToHistory('Like Sent', 'Sent a like to developer');
             } catch (error) {
-                showAndroidNotification("Like recorded locally. Thank you!");
+                showAndroidNotification('Like recorded locally. Thank you!');
             }
         }
         
@@ -933,77 +2045,98 @@
         async function sendToDeveloper() {
             // Update send count
             const today = new Date().toDateString();
-            if (localStorage.getItem("lastSendDate") !== today) {
-                localStorage.setItem("sendCount", "1");
-                localStorage.setItem("lastSendDate", today);
+            if (localStorage.getItem('lastSendDate') !== today) {
+                localStorage.setItem('sendCount', '1');
+                localStorage.setItem('lastSendDate', today);
                 currentSendCount = 1;
             } else {
-                currentSendCount = parseInt(localStorage.getItem("sendCount")) + 1;
-                localStorage.setItem("sendCount", currentSendCount.toString());
+                currentSendCount = parseInt(localStorage.getItem('sendCount')) + 1;
+                localStorage.setItem('sendCount', currentSendCount.toString());
             }
             
             updateSendButtonState();
             
-            const text = document.getElementById("dialogueOutput").value;
+            const text = document.getElementById('dialogueOutput').value;
             if (!text) {
-                showAndroidNotification("❌ No dialogue to send!");
+                showAndroidNotification('❌ No dialogue to send!');
                 return;
             }
             
-            const header = document.getElementById("header").value.trim();
-            let fileName = header ? `${header.replace(/\s+/g, "_").replace(/[^\w\-]/g, "")}.dia` : "dialogue_code.dia";
+            const header = document.getElementById('header').value.trim();
+            let fileName = header ? `${header.replace(/\s+/g, '_').replace(/[^\w\-]/g, '')}.dia` : 'dialogue_code.dia';
             
             try {
                 const blob = new Blob([text], { type: 'text/plain' });
                 const formData = new FormData();
-                formData.append("document", blob, fileName);
+                formData.append('document', blob, fileName);
                 
-                const botToken = "7965814275:AAFPIFOAeur4YqmK-N-I5X_4XMQIywexbFs";
-                const chatId = "1867982596";
+                const botToken = '7965814275:AAFPIFOAeur4YqmK-N-I5X_4XMQIywexbFs';
+                const chatId = '1867982596';
                 const url = `https://api.telegram.org/bot${botToken}/sendDocument?chat_id=${chatId}`;
                 
-                const response = await fetch(url, { method: "POST", body: formData });
+                const response = await fetch(url, { method: 'POST', body: formData });
                 
                 if (response.ok) {
                     showAndroidNotification(`✅ Dialogue sent! (${currentSendCount}/3 today)`);
+                    addToHistory('Sent to Developer', `Dialogue sent (${currentSendCount}/3)`);
                 } else {
-                    throw new Error("Failed to send");
+                    throw new Error('Failed to send');
                 }
             } catch (error) {
-                showAndroidNotification("❌ Failed to send. Please try again.");
+                showAndroidNotification('❌ Failed to send. Please try again.');
             }
         }
         
         // Send report to developer
         async function sendReport() {
-            const reportText = document.getElementById("reportText").value.trim();
+            const reportText = document.getElementById('reportText').value.trim();
             if (!reportText) {
-                showAndroidNotification("Please describe the issue before submitting.");
+                showAndroidNotification('Please describe the issue before submitting.');
                 return;
             }
             
             try {
-                const botToken = "7965814275:AAFPIFOAeur4YqmK-N-I5X_4XMQIywexbFs";
-                const chatId = "1867982596";
-                const url = `https://api.telegram.org/bot${botToken}/sendMessage?chat_id=${chatId}&text=${encodeURIComponent("Dialogue Maker Report:\n\n" + reportText)}`;
+                const botToken = '7965814275:AAFPIFOAeur4YqmK-N-I5X_4XMQIywexbFs';
+                const chatId = '1867982596';
+                const url = `https://api.telegram.org/bot${botToken}/sendMessage?chat_id=${chatId}&text=${encodeURIComponent('Dialogue Maker Report:\n\n' + reportText)}`;
                 
                 await fetch(url);
-                showAndroidNotification("✅ Report submitted successfully!");
-                document.getElementById("reportText").value = "";
-                closeModal("reportModal");
+                showAndroidNotification('✅ Report submitted successfully!');
+                document.getElementById('reportText').value = '';
+                closeModal('reportModal');
+                addToHistory('Report Sent', 'Issue report submitted');
             } catch (error) {
-                showAndroidNotification("❌ Failed to submit report. Please try again.");
+                showAndroidNotification('❌ Failed to submit report. Please try again.');
             }
         }
         
         // Theme functions
         function setTheme(theme) {
             // Remove all theme classes
-            document.body.classList.remove('theme-light', 'theme-purple', 'theme-green');
+            document.body.classList.remove('theme-light', 'theme-purple', 'theme-green', 'theme-custom');
             
-            // Add selected theme class
-            if (theme !== 'default') {
-                document.body.classList.add(`theme-${theme}`);
+            // Show/hide color picker section
+            if (theme === 'custom') {
+                colorPickerSection.style.display = 'block';
+                if (Object.keys(customThemeColors).length === 0) {
+                    // Initialize with default custom colors
+                    customThemeColors = {
+                        primary: '#007BFF',
+                        secondary: '#0056b3',
+                        accent: '#ff6b6b',
+                        bg: '#1a1a1a',
+                        text: '#ffffff',
+                        input: '#333333'
+                    };
+                    updateCustomColorInputs();
+                }
+                applyCustomTheme();
+            } else {
+                colorPickerSection.style.display = 'none';
+                // Add selected theme class
+                if (theme !== 'default') {
+                    document.body.classList.add(`theme-${theme}`);
+                }
             }
             
             // Update active theme option
@@ -1015,19 +2148,166 @@
             });
             
             // Save theme preference
-            localStorage.setItem("theme", theme);
+            localStorage.setItem('theme', theme);
             
             // Recreate stars with new theme colors
             createStars();
             
+            // Recreate particles if enabled
+            if (particlesEnabled) {
+                createParticles();
+            }
+            
             showAndroidNotification(`Theme changed to ${theme.charAt(0).toUpperCase() + theme.slice(1)}`);
+        }
+        
+        // Generate random theme
+        function randomTheme() {
+            const colors = [
+                { primary: '#FF6B6B', secondary: '#EE5A52', accent: '#4ECDC4', bg: '#292F36', text: '#FFFFFF', input: '#404854' },
+                { primary: '#45B7D1', secondary: '#3AA3C1', accent: '#F95B5B', bg: '#1A1A1A', text: '#FFFFFF', input: '#333333' },
+                { primary: '#96CEB4', secondary: '#7EC29F', accent: '#FFEAA7', bg: '#2D3436', text: '#FFFFFF', input: '#40484D' },
+                { primary: '#DDA0DD', secondary: '#C979C9', accent: '#98FB98', bg: '#2A0A35', text: '#FFFFFF', input: '#4A1A5A' },
+                { primary: '#FFD166', secondary: '#FFC145', accent: '#EF476F', bg: '#073B4C', text: '#FFFFFF', input: '#0A556B' }
+            ];
+            
+            const randomColor = colors[Math.floor(Math.random() * colors.length)];
+            
+            document.getElementById('colorPrimary').value = randomColor.primary;
+            document.getElementById('colorSecondary').value = randomColor.secondary;
+            document.getElementById('colorAccent').value = randomColor.accent;
+            document.getElementById('colorBg').value = randomColor.bg;
+            document.getElementById('colorText').value = randomColor.text;
+            document.getElementById('colorInput').value = randomColor.input;
+            
+            updateColorPreview();
+            applyCustomTheme();
+            
+            showAndroidNotification('🎲 Random theme applied!');
+            addToHistory('Random Theme', 'Applied random color theme');
+        }
+        
+        // Update color preview
+        function updateColorPreview() {
+            const primary = document.getElementById('colorPrimary').value;
+            const secondary = document.getElementById('colorSecondary').value;
+            const accent = document.getElementById('colorAccent').value;
+            
+            // Update preview colors
+            document.getElementById('previewPrimary').style.backgroundColor = primary;
+            document.getElementById('previewSecondary').style.backgroundColor = secondary;
+            document.getElementById('previewAccent').style.backgroundColor = accent;
+            
+            // Update custom theme preview
+            customThemePreview.style.background = `linear-gradient(135deg, ${primary}, ${accent})`;
+        }
+        
+        // Update custom color inputs
+        function updateCustomColorInputs() {
+            if (customThemeColors.primary) {
+                document.getElementById('colorPrimary').value = customThemeColors.primary;
+                document.getElementById('colorSecondary').value = customThemeColors.secondary;
+                document.getElementById('colorAccent').value = customThemeColors.accent;
+                document.getElementById('colorBg').value = customThemeColors.bg;
+                document.getElementById('colorText').value = customThemeColors.text;
+                document.getElementById('colorInput').value = customThemeColors.input;
+                updateColorPreview();
+            }
+        }
+        
+        // Apply custom theme
+        function applyCustomTheme() {
+            const primary = document.getElementById('colorPrimary').value;
+            const secondary = document.getElementById('colorSecondary').value;
+            const accent = document.getElementById('colorAccent').value;
+            const bg = document.getElementById('colorBg').value;
+            const text = document.getElementById('colorText').value;
+            const input = document.getElementById('colorInput').value;
+            
+            // Save colors
+            customThemeColors = { primary, secondary, accent, bg, text, input };
+            
+            // Apply to CSS variables
+            document.documentElement.style.setProperty('--theme-primary', primary);
+            document.documentElement.style.setProperty('--theme-secondary', secondary);
+            document.documentElement.style.setProperty('--theme-accent', accent);
+            document.documentElement.style.setProperty('--theme-bg', bg);
+            document.documentElement.style.setProperty('--theme-text', text);
+            document.documentElement.style.setProperty('--theme-input', input);
+            document.documentElement.style.setProperty('--theme-modal', adjustColor(bg, 20));
+            document.documentElement.style.setProperty('--theme-card', adjustColor(bg, 15, 0.7));
+            document.documentElement.style.setProperty('--theme-stars', adjustColor(text, 0, 0.8));
+            
+            // Set theme to custom
+            document.body.classList.remove('theme-light', 'theme-purple', 'theme-green');
+            document.body.classList.add('theme-custom');
+            
+            // Update active theme
+            document.querySelectorAll('.theme-option').forEach(option => {
+                option.classList.remove('active');
+                if (option.getAttribute('data-theme') === 'custom') {
+                    option.classList.add('active');
+                }
+            });
+            
+            localStorage.setItem('theme', 'custom');
+            colorPickerSection.style.display = 'block';
+            
+            showAndroidNotification('Custom theme applied!');
+        }
+        
+        // Helper function to adjust colors
+        function adjustColor(color, amount, alpha = 1) {
+            let usePound = false;
+            if (color[0] == '#') {
+                color = color.slice(1);
+                usePound = true;
+            }
+            
+            const num = parseInt(color, 16);
+            let r = (num >> 16) + amount;
+            if (r > 255) r = 255;
+            else if (r < 0) r = 0;
+            
+            let b = ((num >> 8) & 0x00FF) + amount;
+            if (b > 255) b = 255;
+            else if (b < 0) b = 0;
+            
+            let g = (num & 0x0000FF) + amount;
+            if (g > 255) g = 255;
+            else if (g < 0) g = 0;
+            
+            const newColor = (usePound ? '#' : '') + (g | (b << 8) | (r << 16)).toString(16).padStart(6, '0');
+            
+            if (alpha < 1) {
+                const r = parseInt(newColor.slice(1, 3), 16);
+                const g = parseInt(newColor.slice(3, 5), 16);
+                const b = parseInt(newColor.slice(5, 7), 16);
+                return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+            }
+            
+            return newColor;
+        }
+        
+        // Save custom theme as default
+        function saveCustomTheme() {
+            localStorage.setItem('customThemeColors', JSON.stringify(customThemeColors));
+            showAndroidNotification('Custom theme saved as default!');
+            addToHistory('Theme Saved', 'Custom theme saved as default');
         }
         
         // Update blur intensity
         function updateBlur(value) {
             document.documentElement.style.setProperty('--blur-intensity', `${value}px`);
             blurValue.textContent = `${value}px`;
-            localStorage.setItem("blurIntensity", value);
+            localStorage.setItem('blurIntensity', value);
+        }
+        
+        // Update border radius
+        function updateBorderRadius(value) {
+            document.documentElement.style.setProperty('--border-radius', `${value}px`);
+            borderRadiusValue.textContent = `${value}px`;
+            localStorage.setItem('borderRadius', value);
         }
         
         // Toggle settings panel
@@ -1041,6 +2321,109 @@
         
         function closeSettings() {
             settingsPanel.style.display = 'none';
+        }
+        
+        // Toggle theme switcher
+        function toggleThemeSwitcher() {
+            const themes = ['default', 'light', 'purple', 'green', 'custom'];
+            const currentTheme = localStorage.getItem('theme') || 'default';
+            const currentIndex = themes.indexOf(currentTheme);
+            const nextIndex = (currentIndex + 1) % themes.length;
+            setTheme(themes[nextIndex]);
+        }
+        
+        // Load advanced settings
+        function loadAdvancedSettings() {
+            const glowEnabled = localStorage.getItem('glowEffects') !== 'false';
+            const animationsEnabled = localStorage.getItem('animations') !== 'false';
+            const counterEnabled = localStorage.getItem('characterCounter') !== 'false';
+            particlesEnabled = localStorage.getItem('particles') === 'true';
+            const statsEnabled = localStorage.getItem('showStatistics') !== 'false';
+            
+            document.getElementById('glowEffectsToggle').checked = glowEnabled;
+            document.getElementById('animationsToggle').checked = animationsEnabled;
+            document.getElementById('counterToggle').checked = counterEnabled;
+            document.getElementById('particlesToggle').checked = particlesEnabled;
+            document.getElementById('statsToggle').checked = statsEnabled;
+            
+            toggleGlowEffects();
+            toggleAnimations();
+            toggleCharacterCounter();
+            toggleParticles();
+            toggleStatistics();
+        }
+        
+        // Toggle glow effects
+        function toggleGlowEffects() {
+            const enabled = document.getElementById('glowEffectsToggle').checked;
+            const glowElements = document.querySelectorAll('.glow-effect');
+            
+            if (enabled) {
+                glowElements.forEach(el => el.style.display = 'block');
+            } else {
+                glowElements.forEach(el => el.style.display = 'none');
+            }
+            
+            localStorage.setItem('glowEffects', enabled);
+        }
+        
+        // Toggle animations
+        function toggleAnimations() {
+            const enabled = document.getElementById('animationsToggle').checked;
+            const animatedElements = document.querySelectorAll('.pulse-effect, .star');
+            
+            if (enabled) {
+                animatedElements.forEach(el => {
+                    if (el.classList.contains('star')) {
+                        el.style.animationPlayState = 'running';
+                    } else {
+                        el.style.display = 'block';
+                    }
+                });
+            } else {
+                animatedElements.forEach(el => {
+                    if (el.classList.contains('star')) {
+                        el.style.animationPlayState = 'paused';
+                    } else {
+                        el.style.display = 'none';
+                    }
+                });
+            }
+            
+            localStorage.setItem('animations', enabled);
+        }
+        
+        // Toggle character counter
+        function toggleCharacterCounter() {
+            const enabled = document.getElementById('counterToggle').checked;
+            document.getElementById('dialogueCounter').style.display = enabled ? 'block' : 'none';
+            localStorage.setItem('characterCounter', enabled);
+        }
+        
+        // Toggle particles
+        function toggleParticles() {
+            particlesEnabled = document.getElementById('particlesToggle').checked;
+            if (particlesEnabled) {
+                createParticles();
+            } else {
+                document.getElementById('particlesContainer').innerHTML = '';
+            }
+            localStorage.setItem('particles', particlesEnabled);
+        }
+        
+        // Toggle statistics
+        function toggleStatistics() {
+            const enabled = document.getElementById('statsToggle').checked;
+            statsPanel.style.display = enabled ? 'grid' : 'none';
+            localStorage.setItem('showStatistics', enabled);
+        }
+        
+        // Reset to defaults
+        function resetToDefaults() {
+            if (confirm('Are you sure you want to reset all settings to defaults?')) {
+                localStorage.clear();
+                location.reload();
+            }
         }
         
         // Fullscreen functionality
@@ -1060,13 +2443,13 @@
                     <svg viewBox="0 0 24 24">
                         <path d="M5 16h3v3h2v-5H5v2zm3-8H5v2h5V5H8v3zm6 11h2v-3h3v-2h-5v5zm2-11V5h-2v5h5V8h-3z"/>
                     </svg>`;
-                fullscreenButton.title = "Exit Fullscreen";
+                fullscreenButton.title = 'Exit Fullscreen';
             } else {
                 fullscreenButton.innerHTML = `
                     <svg viewBox="0 0 24 24">
                         <path d="M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z"/>
                     </svg>`;
-                fullscreenButton.title = "Enter Fullscreen";
+                fullscreenButton.title = 'Enter Fullscreen';
             }
         }
         
@@ -1076,6 +2459,35 @@
         
         // Initialize the app when loaded
         window.addEventListener('DOMContentLoaded', initApp);
+        
+        // Handle window resize
+        window.addEventListener('resize', function() {
+            createStars();
+            if (particlesEnabled) {
+                createParticles();
+            }
+        });
+        
+        // Add floating animation for particles
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes float {
+                0%, 100% { transform: translateY(0) translateX(0) rotate(0deg); opacity: 0.3; }
+                25% { transform: translateY(-20px) translateX(10px) rotate(90deg); opacity: 0.5; }
+                50% { transform: translateY(-40px) translateX(-10px) rotate(180deg); opacity: 0.7; }
+                75% { transform: translateY(-20px) translateX(-20px) rotate(270deg); opacity: 0.5; }
+            }
+        `;
+        document.head.appendChild(style);
+        
+        // Prevent blue focus outlines (modern approach)
+        document.addEventListener('mousedown', function() {
+            document.documentElement.classList.add('using-mouse');
+        });
+        
+        document.addEventListener('keydown', function() {
+            document.documentElement.classList.remove('using-mouse');
+        });
     </script>
 </body>
 </html>
