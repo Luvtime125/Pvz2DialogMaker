@@ -9,10 +9,47 @@
             box-sizing: border-box;
         }
         
+        :root {
+            --theme-primary: #007BFF;
+            --theme-bg: #1a1a1a;
+            --theme-text: #ffffff;
+            --theme-input: #333333;
+            --theme-modal: #333;
+            --theme-stars: rgba(255, 255, 255, 0.8);
+            --blur-intensity: 10px;
+        }
+        
+        .theme-light {
+            --theme-primary: #4A6FA5;
+            --theme-bg: #f0f0f0;
+            --theme-text: #333333;
+            --theme-input: #ffffff;
+            --theme-modal: #ffffff;
+            --theme-stars: rgba(0, 0, 0, 0.6);
+        }
+        
+        .theme-purple {
+            --theme-primary: #9C27B0;
+            --theme-bg: #2a0a35;
+            --theme-text: #ffffff;
+            --theme-input: #4a1a5a;
+            --theme-modal: #3a1a45;
+            --theme-stars: rgba(156, 39, 176, 0.8);
+        }
+        
+        .theme-green {
+            --theme-primary: #4CAF50;
+            --theme-bg: #0a2e0a;
+            --theme-text: #ffffff;
+            --theme-input: #1a5a1a;
+            --theme-modal: #1a451a;
+            --theme-stars: rgba(76, 175, 80, 0.8);
+        }
+        
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background-color: #000000;
-            color: #ffffff;
+            color: var(--theme-text);
             display: flex;
             justify-content: center;
             align-items: center;
@@ -21,6 +58,7 @@
             padding: 20px;
             overflow: auto;
             position: relative;
+            transition: background-color 0.5s ease;
         }
         
         .stars {
@@ -37,9 +75,9 @@
             position: absolute;
             width: 2px;
             height: 2px;
-            background-color: white;
+            background-color: var(--theme-stars);
             border-radius: 50%;
-            box-shadow: 0 0 5px rgba(255, 255, 255, 0.8);
+            box-shadow: 0 0 5px var(--theme-stars);
             animation: twinkle 2s infinite ease-in-out;
         }
         
@@ -49,15 +87,39 @@
         }
         
         .container {
-            background: #1a1a1a;
-            padding: 20px;
+            background: rgba(26, 26, 26, 0.8);
+            backdrop-filter: blur(var(--blur-intensity));
+            -webkit-backdrop-filter: blur(var(--blur-intensity));
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 25px;
             border-radius: 20px;
-            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
             width: 100%;
             max-width: 500px;
             text-align: center;
             z-index: 1;
             margin: 20px 0;
+            transition: all 0.3s ease;
+        }
+        
+        .theme-light .container {
+            background: rgba(240, 240, 240, 0.9);
+            border: 1px solid rgba(0, 0, 0, 0.1);
+        }
+        
+        .theme-purple .container {
+            background: rgba(42, 10, 53, 0.9);
+        }
+        
+        .theme-green .container {
+            background: rgba(10, 46, 10, 0.9);
+        }
+        
+        h2 {
+            color: var(--theme-primary);
+            margin-bottom: 20px;
+            font-weight: 600;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
         }
         
         input, select, button {
@@ -67,40 +129,62 @@
             border-radius: 10px;
             border: none;
             font-size: 16px;
-        }
-        
-        input, select {
-            background: #333333;
-            color: #ffffff;
-        }
-        
-        button {
-            background-color: #007BFF;
-            color: #ffffff;
-            cursor: pointer;
-            font-weight: bold;
             transition: all 0.3s ease;
         }
         
-        button:active {
-            transform: scale(0.95);
+        input, select {
+            background: var(--theme-input);
+            color: var(--theme-text);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .theme-light input, 
+        .theme-light select {
+            border: 1px solid rgba(0, 0, 0, 0.1);
+        }
+        
+        button {
+            background-color: var(--theme-primary);
+            color: #ffffff;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        button:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+        }
+        
+        button:active:not(:disabled) {
+            transform: translateY(0);
+        }
+        
+        button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
         }
         
         textarea {
-            background: #333333;
-            color: #ffffff;
-            font-family: monospace;
-            padding: 10px;
+            background: var(--theme-input);
+            color: var(--theme-text);
+            font-family: 'Courier New', monospace;
+            padding: 12px;
             width: 100%;
             min-height: 150px;
             max-height: 50vh;
             border-radius: 10px;
-            border: none;
+            border: 1px solid rgba(255, 255, 255, 0.1);
             resize: vertical;
             font-size: 14px;
             overflow-y: auto;
             white-space: pre;
             word-wrap: break-word;
+        }
+        
+        .theme-light textarea {
+            border: 1px solid rgba(0, 0, 0, 0.1);
         }
         
         /* Modal Styles */
@@ -118,32 +202,74 @@
         }
         
         .modal-content {
-            background-color: #333;
+            background-color: var(--theme-modal);
+            backdrop-filter: blur(var(--blur-intensity));
+            -webkit-backdrop-filter: blur(var(--blur-intensity));
             margin: 5% auto;
-            padding: 20px;
-            border-radius: 10px;
+            padding: 25px;
+            border-radius: 15px;
             width: 90%;
             max-width: 600px;
             position: relative;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+        }
+        
+        .theme-light .modal-content {
+            border: 1px solid rgba(0, 0, 0, 0.1);
         }
         
         .close {
             color: #aaa;
             position: absolute;
-            top: 10px;
+            top: 15px;
             right: 20px;
             font-size: 28px;
             font-weight: bold;
             cursor: pointer;
+            transition: color 0.3s ease;
         }
         
         .close:hover {
-            color: #fff;
+            color: var(--theme-primary);
         }
         
         @keyframes fadeIn {
             from { opacity: 0; }
             to { opacity: 1; }
+        }
+        
+        /* Settings Button */
+        .settings-button {
+            position: fixed;
+            top: 15px;
+            left: 15px;
+            background-color: rgba(0, 123, 255, 0.7);
+            color: white;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            z-index: 1000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+        }
+        
+        .settings-button:hover {
+            background-color: rgba(0, 123, 255, 0.9);
+            transform: scale(1.1);
+        }
+        
+        .settings-button svg {
+            width: 22px;
+            height: 22px;
+            fill: currentColor;
         }
         
         /* Fullscreen Button */
@@ -164,6 +290,8 @@
             align-items: center;
             transition: all 0.3s ease;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
         }
         
         .fullscreen-button:hover {
@@ -183,14 +311,17 @@
             bottom: 20px;
             right: 20px;
             left: 20px;
-            background-color: #333;
-            color: white;
+            background-color: var(--theme-modal);
+            backdrop-filter: blur(var(--blur-intensity));
+            -webkit-backdrop-filter: blur(var(--blur-intensity));
+            color: var(--theme-text);
             padding: 15px;
             border-radius: 10px;
-            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+            box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.3);
             display: none;
             z-index: 1000;
             text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.1);
             animation: slideIn 0.3s ease, fadeOut 0.3s ease 2.5s forwards;
         }
         
@@ -211,10 +342,96 @@
             margin-top: 10px;
         }
         
+        /* Settings Panel */
+        .settings-panel {
+            position: fixed;
+            top: 60px;
+            left: 15px;
+            background-color: var(--theme-modal);
+            backdrop-filter: blur(var(--blur-intensity));
+            -webkit-backdrop-filter: blur(var(--blur-intensity));
+            border-radius: 15px;
+            padding: 20px;
+            width: 280px;
+            z-index: 999;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            display: none;
+            transition: all 0.3s ease;
+        }
+        
+        .settings-panel h3 {
+            margin-top: 0;
+            color: var(--theme-primary);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding-bottom: 10px;
+            margin-bottom: 15px;
+        }
+        
+        .theme-options {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .theme-option {
+            padding: 10px;
+            border-radius: 8px;
+            cursor: pointer;
+            text-align: center;
+            border: 2px solid transparent;
+            transition: all 0.3s ease;
+            background-color: var(--theme-input);
+        }
+        
+        .theme-option:hover {
+            transform: translateY(-2px);
+        }
+        
+        .theme-option.active {
+            border-color: var(--theme-primary);
+        }
+        
+        .theme-option .color-preview {
+            width: 100%;
+            height: 20px;
+            border-radius: 4px;
+            margin-bottom: 5px;
+        }
+        
+        .slider-container {
+            margin: 15px 0;
+        }
+        
+        .slider-container label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+        
+        .slider {
+            width: 100%;
+            height: 8px;
+            border-radius: 4px;
+            background: var(--theme-input);
+            outline: none;
+            -webkit-appearance: none;
+        }
+        
+        .slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: var(--theme-primary);
+            cursor: pointer;
+        }
+        
         /* Responsive Adjustments */
         @media (max-width: 480px) {
             .container {
-                padding: 15px;
+                padding: 20px;
                 border-radius: 15px;
             }
             
@@ -228,8 +445,18 @@
             }
             
             .modal-content {
-                padding: 15px;
+                padding: 20px;
                 width: 95%;
+            }
+            
+            .settings-panel {
+                width: calc(100% - 30px);
+                left: 15px;
+                right: 15px;
+            }
+            
+            .theme-options {
+                grid-template-columns: 1fr;
             }
         }
         
@@ -242,9 +469,66 @@
         :fullscreen textarea {
             max-height: 60vh;
         }
+        
+        /* Developer Credit */
+        .developer-credit {
+            margin-top: 20px;
+            padding-top: 15px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 14px;
+            color: #aaa;
+        }
+        
+        .theme-light .developer-credit {
+            border-top: 1px solid rgba(0, 0, 0, 0.1);
+            color: #666;
+        }
+        
+        .developer-credit a {
+            color: var(--theme-primary);
+            text-decoration: none;
+        }
     </style>
 </head>
 <body>
+    <!-- Settings Button -->
+    <button class="settings-button" id="settingsButton" title="Settings">
+        <svg viewBox="0 0 24 24">
+            <path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/>
+        </svg>
+    </button>
+    
+    <!-- Settings Panel -->
+    <div class="settings-panel" id="settingsPanel">
+        <h3>Theme Settings</h3>
+        
+        <div class="theme-options">
+            <div class="theme-option active" data-theme="default">
+                <div class="color-preview" style="background: linear-gradient(to right, #1a1a1a, #007BFF);"></div>
+                Default
+            </div>
+            <div class="theme-option" data-theme="light">
+                <div class="color-preview" style="background: linear-gradient(to right, #f0f0f0, #4A6FA5);"></div>
+                Light
+            </div>
+            <div class="theme-option" data-theme="purple">
+                <div class="color-preview" style="background: linear-gradient(to right, #2a0a35, #9C27B0);"></div>
+                Purple
+            </div>
+            <div class="theme-option" data-theme="green">
+                <div class="color-preview" style="background: linear-gradient(to right, #0a2e0a, #4CAF50);"></div>
+                Green
+            </div>
+        </div>
+        
+        <div class="slider-container">
+            <label for="blurSlider">Blur Intensity: <span id="blurValue">10px</span></label>
+            <input type="range" min="0" max="20" value="10" class="slider" id="blurSlider">
+        </div>
+        
+        <button onclick="closeSettings()">Close Settings</button>
+    </div>
+
     <!-- Fullscreen Button -->
     <button class="fullscreen-button" id="fullscreenButton" title="Toggle Fullscreen">
         <svg viewBox="0 0 24 24">
@@ -303,6 +587,11 @@
             <button id="sendToDeveloperButton" onclick="sendToDeveloper()">Send to Developer</button>
             <button id="reportButton" onclick="showModal('reportModal')">Report Issue</button>
         </div>
+        
+        <div class="developer-credit">
+            Developed by: [LuvTime]<br>
+            All Rights Reserved © 2026
+        </div>
 
         <!-- Code Modal -->
         <div id="codeModal" class="modal">
@@ -332,8 +621,15 @@
         <div id="welcomeModal" class="modal">
             <div class="modal-content">
                 <span class="close" onclick="closeModal('welcomeModal')">&times;</span>
-                <h3>Welcome to Dialogue Maker!</h3>
+                <h3>Welcome to Dialogue Maker v2.3!</h3>
                 <div style="text-align: left; padding: 10px;">
+                    <p><strong>New Features:</strong></p>
+                    <ul>
+                        <li>Glassmorphism UI with blur effects</li>
+                        <li>Multiple theme options (Default, Light, Purple, Green)</li>
+                        <li>Adjustable blur intensity</li>
+                        <li>Enhanced visual effects</li>
+                    </ul>
                     <p><strong>Key Features:</strong></p>
                     <ul>
                         <li>Create multi-character dialogues easily</li>
@@ -350,7 +646,7 @@
                     </ul>
                     <p style="text-align: center; margin-top: 20px; font-weight: bold;">
                         Developed by: [LuvTime]<br>
-                        All Rights Reserved © 2025
+                        All Rights Reserved © 2026
                     </p>
                 </div>
                 <button onclick="closeModal('welcomeModal')">Get Started</button>
@@ -372,6 +668,10 @@
         const sendToDeveloperButton = document.getElementById("sendToDeveloperButton");
         const likeButton = document.getElementById("likeButton");
         const fullscreenButton = document.getElementById("fullscreenButton");
+        const settingsButton = document.getElementById("settingsButton");
+        const settingsPanel = document.getElementById("settingsPanel");
+        const blurSlider = document.getElementById("blurSlider");
+        const blurValue = document.getElementById("blurValue");
         
         // Initialize the app
         function initApp() {
@@ -395,6 +695,15 @@
                 likeButton.textContent = "Liked!";
             }
             
+            // Load saved theme
+            const savedTheme = localStorage.getItem("theme") || "default";
+            setTheme(savedTheme);
+            
+            // Load saved blur intensity
+            const savedBlur = localStorage.getItem("blurIntensity") || "10";
+            blurSlider.value = savedBlur;
+            updateBlur(parseInt(savedBlur));
+            
             // Check if this is first visit
             const hasVisited = localStorage.getItem("hasVisited");
             if (!hasVisited) {
@@ -407,10 +716,41 @@
             // Update UI
             updateSendButtonState();
             createStars();
-            showAndroidNotification("Dialogue Maker v2.2.5");
+            showAndroidNotification("Dialogue Maker v2.3 loaded with new themes!");
             
             // Set up initial visibility
             toggleDialogueVisibility();
+            
+            // Set up event listeners
+            setupEventListeners();
+        }
+        
+        // Set up event listeners
+        function setupEventListeners() {
+            // Theme selection
+            document.querySelectorAll('.theme-option').forEach(option => {
+                option.addEventListener('click', function() {
+                    const theme = this.getAttribute('data-theme');
+                    setTheme(theme);
+                });
+            });
+            
+            // Blur slider
+            blurSlider.addEventListener('input', function() {
+                updateBlur(parseInt(this.value));
+            });
+            
+            // Settings button
+            settingsButton.addEventListener('click', toggleSettings);
+            
+            // Close settings when clicking outside
+            document.addEventListener('click', function(event) {
+                if (!settingsPanel.contains(event.target) && 
+                    !settingsButton.contains(event.target) && 
+                    settingsPanel.style.display === 'block') {
+                    closeSettings();
+                }
+            });
         }
         
         // Update send button state based on daily limit
@@ -428,6 +768,9 @@
         function createStars() {
             const starsContainer = document.getElementById("starsContainer");
             const starsCount = window.innerWidth < 480 ? 100 : 200;
+            
+            // Clear existing stars
+            starsContainer.innerHTML = '';
             
             for (let i = 0; i < starsCount; i++) {
                 const star = document.createElement("div");
@@ -651,6 +994,53 @@
             } catch (error) {
                 showAndroidNotification("❌ Failed to submit report. Please try again.");
             }
+        }
+        
+        // Theme functions
+        function setTheme(theme) {
+            // Remove all theme classes
+            document.body.classList.remove('theme-light', 'theme-purple', 'theme-green');
+            
+            // Add selected theme class
+            if (theme !== 'default') {
+                document.body.classList.add(`theme-${theme}`);
+            }
+            
+            // Update active theme option
+            document.querySelectorAll('.theme-option').forEach(option => {
+                option.classList.remove('active');
+                if (option.getAttribute('data-theme') === theme) {
+                    option.classList.add('active');
+                }
+            });
+            
+            // Save theme preference
+            localStorage.setItem("theme", theme);
+            
+            // Recreate stars with new theme colors
+            createStars();
+            
+            showAndroidNotification(`Theme changed to ${theme.charAt(0).toUpperCase() + theme.slice(1)}`);
+        }
+        
+        // Update blur intensity
+        function updateBlur(value) {
+            document.documentElement.style.setProperty('--blur-intensity', `${value}px`);
+            blurValue.textContent = `${value}px`;
+            localStorage.setItem("blurIntensity", value);
+        }
+        
+        // Toggle settings panel
+        function toggleSettings() {
+            if (settingsPanel.style.display === 'block') {
+                closeSettings();
+            } else {
+                settingsPanel.style.display = 'block';
+            }
+        }
+        
+        function closeSettings() {
+            settingsPanel.style.display = 'none';
         }
         
         // Fullscreen functionality
